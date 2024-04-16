@@ -1,0 +1,66 @@
+.navbar {
+	background: rgba(36,28,62,0.5);
+    color: white;
+    font-size: 16px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-links {
+    display: flex;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 8px 15px;
+    display: inline-block;
+    transition: color 0.3s;
+}
+
+.navbar-links a:hover {
+    color: #a6a6a6; /* Light grey on hover */
+}
+
+.login-btn {
+	color: white;
+	text-decoration: none;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 8px 20px;
+}
+
+.login-btn:hover {
+    background-color: white;
+    color: #333;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    /* Responsive adjustments */
+    .navbar-links {
+        display: block;
+        text-align: center;
+    }
+    .navbar-links a {
+        display: block;
+        margin: 5px 0;
+    }
+}
