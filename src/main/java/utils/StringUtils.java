@@ -2,13 +2,13 @@ package utils;
 
 public class StringUtils {
 	public static final String USER_NAME = "username"; //also used in session
-	public static final String FIRST_NAME = "firstName";
-	public static final String LAST_NAME = "lastName";
-	public static final String BIRTHDAY = "birthday";
+	public static final String FIRST_NAME = "first_name";
+	public static final String LAST_NAME = "last_name";
+	public static final String BIRTHDAY = "dob";
 	public static final String GENDER = "gender";
 	public static final String EMAIL = "email";
-	public static final String PHONE_NUMBER = "phoneNumber";
-	public static final String SUBJECT = "subject";
+	public static final String PHONE_NUMBER = "phone";
+	public static final String ADDRESS = "address";
 	public static final String PASSWORD = "password";
 	public static final String RETYPE_PASSWORD = "retypePassword";
 		
@@ -39,8 +39,8 @@ public class StringUtils {
     public static final String LOGOUT_SERVLET = "/LogoutServlet";
 	
 	public static final String INSERT_USER = "INSERT INTO users" +
-			"(first_name, last_name, email, gender, Phone_number, Address, Password, Registration_Date)" +
-			"VALUES (?,?,?,?,?,?,?,NOW())";
+			"(first_name, last_name, email, dob, gender, Phone_number, Address, Password, Registration_Date)" +
+			"VALUES (?,?,?,?,?,?,?,?,NOW())";
 	
 	
 	public static final String GET_LOGIN_USER_INFO = "SELECT * FROM users WHERE email = ?";
