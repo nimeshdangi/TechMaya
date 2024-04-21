@@ -10,10 +10,12 @@ import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import controller.DatabaseController;
 import model.UserModel;
@@ -23,6 +25,9 @@ import utils.StringUtils;
  * Servlet implementation class MyFirstServlet
  */
 @WebServlet(asyncSupported = true, description = "my first servlet", urlPatterns = { "/RegisterServlet" })
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+maxFileSize = 1024 * 1024 * 10, // 10MB
+maxRequestSize = 1024 * 1024 * 50)
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -61,6 +66,18 @@ public class RegisterServlet extends HttpServlet {
 		String address = request.getParameter(StringUtils.ADDRESS);
 		String password = request.getParameter(StringUtils.PASSWORD);
 		String retypePassword = request.getParameter(StringUtils.RETYPE_PASSWORD);
+		
+		if(!hasOnlyAlphabets(firstName)) {
+			request.setAttribute(StringUtils.ERROR_MESSAGE, "First Name must contain alphabets only");
+			request.getRequestDispatcher(StringUtils.REGISTER_PAGE).forward(request, response);
+			return;
+		}
+		
+		if(!hasOnlyAlphabets(lastName)) {
+			request.setAttribute(StringUtils.ERROR_MESSAGE, "Last Name must contain alphabets only");
+			request.getRequestDispatcher(StringUtils.REGISTER_PAGE).forward(request, response);
+			return;
+		}
 		
 		if(!isValidNepaliPhoneNumber(phoneNumber)) {
 			request.setAttribute(StringUtils.ERROR_MESSAGE, "Invalid Phone Number");
@@ -144,9 +161,9 @@ public class RegisterServlet extends HttpServlet {
 	}
 	
 	private boolean hasOnlyAlphabets(String data) {
-		Pattern pattern = Pattern.compile("[^a-zA-z]");
-		//If finds only alphabets, find() returns false, which we inverse
-		return !pattern.matcher(data).find();
+	    Pattern pattern = Pattern.compile("[^a-zA-Z]"); // Corrected pattern
+	    // If finds only alphabets, find() returns false, which we inverse
+	    return !pattern.matcher(data).find();
 	}
 	
 	private boolean hasProperUsername(String username) {

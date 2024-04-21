@@ -71,11 +71,15 @@ public class DatabaseController {
 				//User name and password match in the database
 				String emailDb = rs.getString("email");
 				String passwordDb = rs.getString("password");
+				String roleDb = rs.getString("role");
 				String decryptedPwd = PasswordEncryptionWithAes.decrypt(passwordDb, email);
 				System.out.println("Trying to match password");
 				
-				if (decryptedPwd != null && emailDb.equals(email) && decryptedPwd.equals(password)) {
-					System.out.println("Password Matched");
+				if (decryptedPwd != null && emailDb.equals(email) && decryptedPwd.equals(password) && roleDb.equals("Admin")) {
+					System.out.println("Password Matched for admin");
+					return 2;
+				} else if (decryptedPwd != null && emailDb.equals(email) && decryptedPwd.equals(password)) {
+					System.out.println("Password Matched for user");
 					return 1;
 				} else {
 					System.out.println("PAssword did not match");

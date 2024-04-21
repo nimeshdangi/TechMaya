@@ -69,6 +69,27 @@ public class LoginServlet extends HttpServlet {
 			//request.setAttribute("firstName", successRegisterMessage);
 			request.setAttribute(StringUtils.SUCCESS_MESSAGE, StringUtils.SUCCESS_LOGIN_MESSAGE);
 			response.sendRedirect(request.getContextPath() + StringUtils.WELCOME_PAGE);
+		} else if (loginResult == 2) {
+			//Successfully login
+			
+			HttpSession userSession = request.getSession();
+			userSession.setAttribute("email", email);
+			userSession.setAttribute("role", "Admin");
+			userSession.setMaxInactiveInterval(30);
+			userSession.setAttribute("creation", userSession.getCreationTime());
+			
+			Cookie userCookie= new Cookie("email", email);
+			userCookie.setMaxAge(30*60);
+			response.addCookie(userCookie);
+			
+			Cookie helloCookie = new Cookie("hello", "Hellofromtheotherside");
+			helloCookie.setMaxAge(60);
+			response.addCookie(helloCookie);
+			
+			//String successRegisterMessage = "Successfully Registered!";
+			//request.setAttribute("firstName", successRegisterMessage);
+			request.setAttribute(StringUtils.SUCCESS_MESSAGE, StringUtils.SUCCESS_LOGIN_MESSAGE);
+			response.sendRedirect(request.getContextPath() + "/pages/adminpanel.jsp");
 		} else if (loginResult ==-3) {
 			//Redirect to the same register page with form data mistake
 			String errorMessage = "User does not exist.";

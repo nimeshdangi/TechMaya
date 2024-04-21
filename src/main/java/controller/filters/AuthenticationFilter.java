@@ -55,6 +55,8 @@ public class AuthenticationFilter implements Filter{
 				boolean isLogin = uri.endsWith(StringUtils.LOGIN_URL);
 				boolean isRegister = uri.endsWith(StringUtils.REGISTER_URL);
 
+				boolean isAdminPanel = uri.endsWith("/adminpanel.jsp");
+				boolean isWelcome = uri.endsWith("welcome.jsp");
 				// Check if the requested URI indicates a login servlet (e.g., /login)
 				boolean isLoginServlet = uri.endsWith(StringUtils.LOGIN_SERVLET);  //the value in urlPatterns, so /LoginServlet 
 
@@ -83,6 +85,7 @@ public class AuthenticationFilter implements Filter{
 					res.sendRedirect(req.getContextPath() + StringUtils.LOGIN_PAGE);
 				}
 				*/
+//				System.out.println("Session in server: " + session.getAttribute("email"));
 				if (!isLoggedIn) {
 					if (!isLogin && !isLoginServlet && !isRegister && !isRegisterServlet) {
 						res.sendRedirect(req.getContextPath() + StringUtils.LOGIN_PAGE);
@@ -91,14 +94,33 @@ public class AuthenticationFilter implements Filter{
 					}
 				}
 				else if(isLoggedIn && !(!isRegister || isRegisterServlet)) {
-					res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);	
+					if(session.getAttribute("role") == "Admin") {
+						res.sendRedirect(req.getContextPath() + "/pages/adminpanel.jsp");
+					} else {
+						res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);
+					}
 				}
 				// If the user is logged in and the requested URI does not indicate an attempt
 				// to access the login page or logout servlet,
 				// redirect the user to the home page to prevent access to login-related pages.
 				else if (isLoggedIn && !(!isLogin || isLogoutServlet)) {
-					res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);	
+					if(session.getAttribute("role") == "Admin") {
+						res.sendRedirect(req.getContextPath() + "/pages/adminpanel.jsp");
+					} else {
+						res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);
+					}
 				}
+//				else if (isLoggedIn) {
+//					if(session.getAttribute("role") == null) {
+//						if(isAdminPanel) {
+//							res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);
+//						}
+//					} else {
+//						if(isWelcome) {
+//							res.sendRedirect(req.getContextPath() + "/pages/adminpanel.jsp");
+//						}
+//					}
+//				}
 				// If none of the above conditions are met, allow the request to continue down
 				// the filter chain.
 				else {
