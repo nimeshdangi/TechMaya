@@ -110,19 +110,22 @@ public class AuthenticationFilter implements Filter{
 						res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);
 					}
 				}
-//				else if (isLoggedIn) {
-//					if(session.getAttribute("role") == null) {
-//						if(isAdminPanel) {
-//							res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);
-//						}
-//					} else {
-//						if(isWelcome) {
-//							res.sendRedirect(req.getContextPath() + "/pages/adminpanel.jsp");
-//						}
-//					}
-//				}
-				// If none of the above conditions are met, allow the request to continue down
-				// the filter chain.
+				else if (isLoggedIn) {
+					System.out.println(session.getAttribute("role"));
+					if(session.getAttribute("role") == null) {
+						if(isAdminPanel) {
+							res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);
+						}
+					} else {
+						if(isWelcome) {
+							res.sendRedirect(req.getContextPath() + "/pages/adminpanel.jsp");
+						} else {
+							chain.doFilter(request, response);
+						}
+					}
+				}
+//				 If none of the above conditions are met, allow the request to continue down
+//				 the filter chain.
 				else {
 					chain.doFilter(request, response);
 				}
