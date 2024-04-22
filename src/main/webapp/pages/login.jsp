@@ -11,7 +11,17 @@
 		<jsp:include page="header.jsp" />
 		<div class="login-modal">
 		  <h1 style="text-align: center; margin-top: 0px">Login</h1>
-		  <form action="login.jsp" method="post">
+		  <%
+			String errorMessage = (String) request.getAttribute("errorMessage");
+			if(errorMessage != null && !errorMessage.isEmpty()){
+			
+			%>
+			
+			<p class="error-message"> <%=errorMessage%></p>
+			<%
+			}
+		  %>
+		  <form action="/TechMaya/LoginServlet" method="post">
 		    <div class="form-group">
 		      <label for="email">Enter your email</label>
 		      <input type="email" id="email" name="email" placeholder="Enter Email" required>

@@ -9,9 +9,17 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp" />
-		<div class="login-modal" style="margin-top: 80px;">
+		<div class="login-modal" style="margin-top: 120px;">
 		  <h1 style="text-align: center; margin-top: 0px">Register</h1>
-		  <form action="register.jsp" method="post">
+		  <%
+			String errorMessage = (String) request.getAttribute("errorMessage");
+			if(errorMessage != null && !errorMessage.isEmpty()){
+			%>
+			<p class="error-message"> <%=errorMessage%></p>
+			<%
+			}
+		  %>
+		  <form action="/TechMaya/RegisterServlet" method="post">
 		    <div class="form-group">
 		      <label for="fname">Enter First Name</label>
 		      <input type="text" id="fname" name="first_name" placeholder="First Name" required>
@@ -33,6 +41,10 @@
 		      <input type="text" id="address" name="address" placeholder="Address" required>
 		    </div>
 		    <div class="form-group">
+		      <label for="dob">Date of Birth</label>
+		      <input type="date" id="dob" name="dob" placeholder="Date of Birth" required>
+		    </div>
+		    <div class="form-group">
 		      <label for="">Enter Gender</label>
 		      <input type="radio" name="gender" value="Male" required> Male
 		      <input type="radio" name="gender" value="Female" required> Female
@@ -43,7 +55,7 @@
 		    </div>
 		    <div class="form-group">
 		      <label for="password2">Re-Enter your password</label>
-		      <input type="password" id="password2" name="password2" placeholder="Confirm Password" required>
+		      <input type="password" id="password2" name="retypePassword" placeholder="Confirm Password" required>
 		    </div>
 		    <button type="submit" class="login-button">Register</button>
 		    <div class="signup-link">
