@@ -10,14 +10,16 @@ import java.io.Serializable;
 public class UserModel implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String firstName, lastName, gender, email, phoneNumber, address, password;
+	private int userID;
+	private String firstName, lastName, gender, email, phoneNumber, address, password, image;
 	
 	public UserModel() {
 		
 	}
 	
-	public UserModel(String firstName, String lastName, String gender, String email, String phoneNumber, String address, String password) {
+	public UserModel(String firstName, String lastName, String gender, String email, String phoneNumber, String address, String password, String image) {
 		super();
+		
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setGender(gender);
@@ -25,6 +27,16 @@ public class UserModel implements Serializable{
 		this.setPhoneNumber(phoneNumber);
 		this.setAddress(address);
 		this.setPassword(password);
+		this.setImage(image);
+		
+		
+	}
+	
+	public int getUserID() {
+		return userID;
+	}
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -67,6 +79,12 @@ public class UserModel implements Serializable{
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 }
 
