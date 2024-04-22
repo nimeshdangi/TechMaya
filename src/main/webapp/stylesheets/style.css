@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: url('/TechMaya/images/background1.webp') no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+}
+
+.login-modal {
+  background: #fff;
+  width: 400px;
+  border-radius: 10px;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.login-modal .form-group {
+  margin-bottom: 15px;
+}
+
+.login-modal label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.login-modal input[type="email"],
+.login-modal input[type="text"],
+.login-modal input[type="date"],
+.login-modal input[type="password"] {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.login-modal .form-remember {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-modal .forgot-password {
+  color: #333;
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: #800080; /* Purple color */
+  color: white;
+  cursor: pointer;
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.signup-link a {
+  color: #800080; /* Purple color */
+  text-decoration: none;
+}
+
+.error-message {
+	text-align: center;
+	color: red;
+}
