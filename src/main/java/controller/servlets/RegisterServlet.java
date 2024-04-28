@@ -181,7 +181,7 @@ public class RegisterServlet extends HttpServlet {
         // Compile the ReGex
         Pattern p = Pattern.compile(regex);
 
-        // If the phone number is empty, return false
+        // If the phone number is empty return false
         if (phoneNumber == null) {
             return false;
         }

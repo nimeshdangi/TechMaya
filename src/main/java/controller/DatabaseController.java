@@ -82,8 +82,9 @@ public class DatabaseController {
 					System.out.println("Password Matched for user");
 					return 1;
 				} else {
-					System.out.println("PAssword did not match");
+					System.out.println("Password did not match");
 					return -2;
+				
 				}
 			} else {
 				System.out.println("User not available");

@@ -115,6 +115,8 @@ public class AuthenticationFilter implements Filter{
 					if(session.getAttribute("role") == null) {
 						if(isAdminPanel) {
 							res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);
+						} else {
+							chain.doFilter(request, response);
 						}
 					} else {
 						if(isWelcome) {
