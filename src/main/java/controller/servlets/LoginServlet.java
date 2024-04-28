@@ -6,6 +6,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
+
+import controller.DatabaseController;
+import utils.StringUtils;
 
 /**
  * This is a servlet that manages login features.
@@ -15,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(asyncSupported = true, urlPatterns = { "/LoginServlet" })
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	DatabaseController dbController = new DatabaseController();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,7 +43,74 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String email = request.getParameter(StringUtils.EMAIL);
+		String password = request.getParameter(StringUtils.PASSWORD);
+		
+		int loginResult = dbController.getUserLoginInfo(email, password);
+		System.out.println("Login Result: " + loginResult);
+		
+		if (loginResult == 1) {
+			//Successfully login
+			
+			HttpSession userSession = request.getSession();
+			userSession.setAttribute("email", email);
+			userSession.setMaxInactiveInterval(30);
+			userSession.setAttribute("creation", userSession.getCreationTime());
+			
+			Cookie userCookie= new Cookie("email", email);
+			userCookie.setMaxAge(30*60);
+			response.addCookie(userCookie);
+			
+			Cookie helloCookie = new Cookie("hello", "Hellofromtheotherside");
+			helloCookie.setMaxAge(60);
+			response.addCookie(helloCookie);
+			
+			//String successRegisterMessage = "Successfully Registered!";
+			//request.setAttribute("firstName", successRegisterMessage);
+			request.setAttribute(StringUtils.SUCCESS_MESSAGE, StringUtils.SUCCESS_LOGIN_MESSAGE);
+			response.sendRedirect(request.getContextPath() + StringUtils.WELCOME_PAGE);
+		} else if (loginResult == 2) {
+			//Successfully login
+			
+			HttpSession userSession = request.getSession();
+			userSession.setAttribute("email", email);
+			userSession.setAttribute("role", "Admin");
+			userSession.setMaxInactiveInterval(30);
+			userSession.setAttribute("creation", userSession.getCreationTime());
+			
+			Cookie userCookie= new Cookie("email", email);
+			userCookie.setMaxAge(30*60);
+			response.addCookie(userCookie);
+			
+			Cookie helloCookie = new Cookie("hello", "Hellofromtheotherside");
+			helloCookie.setMaxAge(60);
+			response.addCookie(helloCookie);
+			
+			//String successRegisterMessage = "Successfully Registered!";
+			//request.setAttribute("firstName", successRegisterMessage);
+			request.setAttribute(StringUtils.SUCCESS_MESSAGE, StringUtils.SUCCESS_LOGIN_MESSAGE);
+			response.sendRedirect(request.getContextPath() + "/pages/adminpanel.jsp");
+		} else if (loginResult ==-3) {
+			//Redirect to the same register page with form data mistake
+			String errorMessage = "User does not exist.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher(StringUtils.LOGIN_PAGE).forward(request, response);
+		} else if (loginResult ==-2) {
+			//Redirect to the same register page with form data mistake
+			String errorMessage = "Password does not match.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher(StringUtils.LOGIN_PAGE).forward(request, response);
+		} else if (loginResult == -1) {
+            // Username not found
+            request.setAttribute(StringUtils.ERROR_MESSAGE, StringUtils.MESSAGE_ERROR_CREATE_ACCOUNT);
+            request.getRequestDispatcher(StringUtils.LOGIN_PAGE).forward(request, response);
+		} else {
+			//Redirect to the same register page with server error
+			String errorMessage = "An unexpected server error occurred.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher(StringUtils.LOGIN_PAGE).forward(request, response);
+					
+		}
 	}
 
 }

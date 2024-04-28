@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * This is a model class for a user.
@@ -23,6 +24,7 @@ public class UserModel implements Serializable{
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setGender(gender);
+		this.setDob(dob);
 		this.setEmail(email);
 		this.setPhoneNumber(phoneNumber);
 		this.setAddress(address);
@@ -55,6 +57,12 @@ public class UserModel implements Serializable{
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	public LocalDate getDob() {
+		return dob;
+	}
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
 	}
 	public String getEmail() {
 		return email;

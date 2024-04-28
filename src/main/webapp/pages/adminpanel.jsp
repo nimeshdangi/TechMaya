@@ -4,9 +4,10 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>Insert title here</title>
+		<title>Admin Section</title>
 	</head>
 	<body>
-		
+		<h1>Admin Section</h1>
+		<p>Admin things only</p>
 	</body>
 </html>
