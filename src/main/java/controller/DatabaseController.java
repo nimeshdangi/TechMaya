@@ -133,6 +133,22 @@ public class DatabaseController {
 			return null;
 		}
 	}
+	
+	public int updateOrderStatus(OrderModel order) {
+		try {
+			PreparedStatement stmt = getConnection()
+					.prepareStatement("UPDATE orders SET status=? WHERE id=?");
+			stmt.setString(1, order.getStatus());
+			stmt.setString(2, String.valueOf(order.getId()));
+	
+			int result = stmt.executeUpdate();
+			return result > 0 ? 1 : 0;
+			}
+			catch(SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				return -1;
+			}
+	}
 
 	public int deleteProductInfo(String id) {
 		try (Connection con = getConnection()) {

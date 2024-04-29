@@ -68,7 +68,18 @@
                     		<td> ${order.id}</td>
                     		<td> ${order.date}</td>
                     		<td> ${order.user}</td>
-                    		<td> ${order.status}</td>
+                    		<td>
+                    		<form action="/TechMaya/AdminOrdersServlet" method="post" style="display:flex; justify-content:space-between;">
+                    			<select id="status" name="status" required>
+									<option value="pending" <c:if test="${order.status.equals('pending')}"> selected </c:if>>Pending</option>
+									<option value="delivered" <c:if test="${order.status.equals('delivered')}"> selected </c:if>>Delivered</option>
+								</select>
+								<input type="hidden" name="id" value="${order.id}" />
+								
+								<button>Update</button>
+							</form>
+                    		
+                    		</td>
                     	</tr>
                     </c:forEach>
                     </table>

@@ -43,7 +43,14 @@ public class AdminOrdersServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// Updates order status
+		String status = request.getParameter("status");
+		String id = request.getParameter("id");
+		
+		OrderModel order = new OrderModel();
+		order.setStatus(status);
+		order.setId(Integer.parseInt(id));
+		int result = databaseController.updateOrderStatus(order);
 		doGet(request, response);
 	}
 
