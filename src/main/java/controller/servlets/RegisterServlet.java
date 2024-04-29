@@ -98,7 +98,7 @@ public class RegisterServlet extends HttpServlet {
 		}
 		
 		UserModel userModel = new UserModel(firstName, lastName,
-				gender, dob, email, phoneNumber, address, password);
+				gender, dob, email, phoneNumber, address, password, );
 		
 		int result = dbController.registerUser(userModel);
 		

@@ -15,7 +15,7 @@ import utils.StringUtils;
 /**
  * This is a servlet that manages login features.
  * 
- * @author Sujal Khatiwada (np01cp4a220106@islingtoncollege.edu.np)
+ * @author Nimesh Dangi
  */
 @WebServlet(asyncSupported = true, urlPatterns = { "/LoginServlet" })
 public class LoginServlet extends HttpServlet {
