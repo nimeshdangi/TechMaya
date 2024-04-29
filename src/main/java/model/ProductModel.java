@@ -51,7 +51,7 @@ public class ProductModel implements Serializable{
 		File fileSaveDir = new File(StringUtils.IMAGE_DIR_SAVE_PATH);
 		String imageUrlFromPart = null;
 		if (!fileSaveDir.exists()) {
-			fileSaveDir.mkdir();
+			fileSaveDir.mkdirs();
 		}
 		String contentDisp = part.getHeader("content-disposition");
 		String[] items = contentDisp.split(";");

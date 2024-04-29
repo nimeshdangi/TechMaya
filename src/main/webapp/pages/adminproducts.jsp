@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +49,7 @@
 			</div>
             
 	
-			<div id="main" class="column-flex">
+			<div id="main" class="column-flex" style="height:690px">
                 <!--Search-->
 				<div id="search-bar">
                     <input type="text" id="search" onkeyup="search()" placeholder="search...">
@@ -75,9 +74,9 @@
                         <br>
                     </div>
                     <div>
-                        <button onclick="addProduct()">Add</button>
+                        <button>Add</button>
 
-                        <button onclick="showPopup()">Close</button>
+                        <button onclick="showPopup()" type="button">Close</button> <!-- Also causes post. Fixed by adding type="button" -->
                     </div>
                 </form>
                 <!-- Products-->
@@ -91,6 +90,16 @@
                     		<img src="/TechMaya${product.imageUrlFromPart}"/>
                     		<p class="product-title"> ${product.name}</p>
                     		<p class="product-description"> ${product.description}</p>
+                    		<div style="display:flex;justify-content: space-evenly; height:40px; width:100%;">
+                    			<form method="post" action="${pageContext.request.contextPath}/AdminModifyProductsServlet">
+                    				<input type="hidden" name="updateId" value="${product.id}" />
+									<button type="submit" style="width:50px; height:20px;"	>Update</button>
+                    			</form>
+                    			<form id="deleteForm-${product.name}" method="post" action="${pageContext.request.contextPath}/AdminModifyProductsServlet">
+                    				<input type="hidden" name="deleteId" value="${product.id}" /> <!-- Try formactoin -->
+									<button type="button" onclick="confirmDelete('${product.name}')">Delete</button>
+                    			</form>
+							</div>             			
                     	</div>
                     </c:forEach>
                         
@@ -100,6 +109,7 @@
 	</body>
 	
 	<script>
+	//do backend. not frontend
 	const adminProduct = document.getElementById("admin-products");
     const list = adminProduct.querySelectorAll(".admin-product");
 
@@ -120,5 +130,11 @@
         const overlay = document.getElementById('popup-product'); 
         overlay.classList.toggle('show'); 
     }
+    
+    function confirmDelete(name){
+		if( confirm("Are you sure you wnat to delete this user: "+name+"?")){
+			document.getElementById("deleteForm-" + name).submit();
+		}
+	}
 	</script>
 </html>
