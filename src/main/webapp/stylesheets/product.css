@@ -1,0 +1,31 @@
+/* styles.css */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin: 10px;
+}
+
+.product-card img {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.product-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+.product-card .price-rating {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #333;
+}
+
