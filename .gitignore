@@ -3,4 +3,4 @@
 .project
 .settings
 /bin/
-/src/main/webapp/images/
+# /src/main/webapp/images/
