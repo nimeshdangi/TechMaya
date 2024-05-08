@@ -42,8 +42,9 @@
         </ul>
       </div>
 
-      <form class = "purchase-info" action="/TechMaya/ProductServlet">
-        <input type = "number" min = "1" value = "1">
+      <form class = "purchase-info" action="/TechMaya/AddToCartServlet" method="post">
+        <input type = "number" name="product-quantity" min = "1" value = "1" max="${product.stock }">
+        <input type="hidden" name="product-id" value="${product.uid}"/>
         <button class = "btn">
           Add to Cart <i class = "fas fa-shopping-cart"></i>
         </button>

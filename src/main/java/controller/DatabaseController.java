@@ -378,6 +378,83 @@ public class DatabaseController {
 		}
 	}
 	
+	//Cart Functionalities
+	public int AddProductToCart(String userId, String productId, int quantity) {
+		try(Connection con = getConnection()){
+
+			if (this.productExistsInCart(userId, productId)) {
+				System.out.println("Item already exists in cart!!!");
+				System.out.println("Incrementing the quantity!!!"); //need to check max quantity in stock
+				this.UpdateProductInCart(userId, productId, quantity+1);
+				return 0;
+			}
+			
+			PreparedStatement st = con.prepareStatement("INSERT INTO cart VALUES (?,?,?)");
+			st.setString(1, userId);
+			st.setString(2, productId);
+			st.setInt(3, quantity);
+			int result = st.executeUpdate();
+			return result > 0 ? 1 : 0;
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+		
+	}
 	
+	public int UpdateProductInCart(String userId, String productId, int quantity) {
+		try(Connection con = getConnection()){
+			
+			PreparedStatement st = con.prepareStatement("UPDATE cart SET quantity=? WHERE customer_id = ? AND product_id = ?");
+			st.setInt(1, quantity);
+			st.setString(2, userId);
+			st.setString(3, productId);
+			int result = st.executeUpdate();
+			return result > 0 ? 1 : 0;
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+		
+	}
+	
+	public boolean productExistsInCart(String userId, String productId) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("SELECT COUNT(*) FROM cart WHERE customer_id = ? AND product_id = ?");
+			st.setString(1, userId);
+			st.setString(2, productId);
+
+			ResultSet result = st.executeQuery();
+			result.next();
+			if(result.getInt(1)>0) {
+				return true; //product exists
+			} else {
+				return false;
+			}
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+	
+	//Temp. Print all cart items
+	public void getCartProducts(String userId) {
+		try(Connection con = getConnection()){
+			//to add: +1 product if item already exists in cart
+			PreparedStatement st = con.prepareStatement("SELECT products.name productName,cart.quantity productQuantity FROM products, cart WHERE customer_id=? AND cart.product_id=products.id");
+			st.setString(1, userId);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				System.out.println("Product: "+rs.getString("productName"));
+				System.out.println("Quantity: "+rs.getInt("productQuantity"));
+			}
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+	}
 	
 }

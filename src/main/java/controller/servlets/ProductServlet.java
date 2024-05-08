@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import controller.DatabaseController;
 import model.ProductModel;
@@ -37,6 +38,13 @@ public class ProductServlet extends HttpServlet {
 		
 		List<ProductModel> products = databaseController.getProductByTagExcludingId(product.getTag(), uid);
 		request.setAttribute("similarProducts", products);
+		
+		//test
+		System.out.println("in productservlet");
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpSession session = req.getSession(false); //ensuring that a new session is not created
+		String userId = (String) session.getAttribute("userId");
+		databaseController.getCartProducts(userId);
 		
 		request.getRequestDispatcher("/pages/product.jsp").forward(request, response);
 	}

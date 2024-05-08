@@ -74,8 +74,12 @@
                     	<input type="hidden" name="product-id" value="${product.uid}"/>
                     	<button>View</button>
                     </form>
-        
-                    <button class="buy-buttons"><a href="#" class="btn-product">Add to Cart</a></button>
+        			<form action="/TechMaya/AddToCartServlet" method="post">
+                    	<input type="hidden" name="product-id" value="${product.uid}"/>
+                    	<input type="hidden" name="product-quantity" value="1"/> <!-- Set default value to 1 if directly adding to cart from products page -->
+                    	<button class="buy-buttons">Add to Cart</button>
+                    </form>
+                    
                     
 	 			</div>
 	 		</section>
