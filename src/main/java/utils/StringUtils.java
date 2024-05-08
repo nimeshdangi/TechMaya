@@ -13,6 +13,8 @@ public class StringUtils {
 	public static final String ADDRESS = "address";
 	public static final String PASSWORD = "password";
 	public static final String RETYPE_PASSWORD = "retypePassword";
+	
+	public static final String USER_ID = "userId";
 		
 	public static final String SUCCESS_LOGIN_MESSAGE = "Successfully logged in!";
 	//Week 5
@@ -60,4 +62,7 @@ public class StringUtils {
 	public static final String IMAGE_DIR_USER = "EclipseJava\\TechMaya\\src\\main\\webapp\\resources\\images\\products\\";
 
 	public static final String IMAGE_DIR_SAVE_PATH = "D:" + File.separator + IMAGE_DIR_USER;
+	
+	public static final String[] PRODUCT_TAGS = {"Headphone","Earphone","Speaker","Mouse","Gamepad","Keyboard"};
+	
 }

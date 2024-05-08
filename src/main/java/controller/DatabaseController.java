@@ -28,15 +28,19 @@ public class DatabaseController {
 		try {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement("SELECT * FROM products");
+			
 			ResultSet result = stmt.executeQuery();
 			
 			ArrayList<ProductModel> products = new ArrayList<ProductModel>();
 			
 			while(result.next()) {
 				ProductModel product = new ProductModel();
-				product.setId(Integer.parseInt(result.getString("id")));
+				product.setUid(result.getString("id"));
 				product.setName(result.getString("name"));
+				product.setPrice(result.getDouble("price"));
 				product.setDescription(result.getString("description"));
+				product.setTag(result.getString("tag"));
+				product.setStock(result.getInt("stock"));				
 				product.setImageUrlFromPart(result.getString("image"));
 				products.add(product);
 			}
@@ -50,15 +54,18 @@ public class DatabaseController {
 	
 	public int addProduct(ProductModel product) {
 		try(Connection con = getConnection()){
-			int id = this.getAllProducts().size()+1;
-			System.out.println("DB currently has "+String.valueOf(id)+ "items.");
-			PreparedStatement st = con.prepareStatement("INSERT INTO products VALUES (?,?,?,?)");
-			st.setString(1, String.valueOf(id));
+			int total = this.getAllProducts().size()+1;
+			System.out.println("DB currently has "+String.valueOf(total)+ "items.");
+			PreparedStatement st = con.prepareStatement("INSERT INTO products VALUES (?,?,?,?,?,?,?)");
+			st.setString(1, product.getUid());
 			st.setString(2, product.getName());
-			st.setString(3, product.getDescription());
-			String location = product.getImageUrlFromPart();
-			st.setString(4, location);
-			
+			st.setDouble(3, product.getPrice());
+			st.setString(4, product.getDescription());
+			st.setInt(5, product.getStock());
+			st.setString(6,product.getTag());
+			String img = product.getImageUrlFromPart();
+			st.setString(7, img);
+			System.out.println("tag is: "+product.getTag());
 			System.out.println("Saving to database...");
 			
 			int result = st.executeUpdate();
@@ -78,10 +85,14 @@ public class DatabaseController {
 		ResultSet result = stmt.executeQuery();
 		if(result.next()) {
 			ProductModel product = new ProductModel();
-			product.setId(Integer.parseInt(result.getString("id")));
+			product.setUid((result.getString("id")));
 			product.setName(result.getString("name"));
 			product.setDescription(result.getString("description"));
+			product.setPrice(result.getDouble("price"));
+			product.setStock(result.getInt("stock"));
 			product.setImageUrlFromPart(result.getString("image"));
+			product.setTag(result.getString("tag"));
+			
 			return product;
 			
 		} else {
@@ -97,13 +108,16 @@ public class DatabaseController {
 	public int updateProduct(ProductModel product) {
 		try {
 			//IGNORING IMAGE FOR NOW
-			PreparedStatement stmt = getConnection()
-					.prepareStatement("UPDATE products SET name=?, description=? WHERE id=?");
-			stmt.setString(1, product.getName());
-			stmt.setString(2, product.getDescription());
-			stmt.setString(3,String.valueOf(product.getId()));
+			PreparedStatement st = getConnection()
+					.prepareStatement("UPDATE products SET name=?, description=?, price=?,stock=?,tag=? WHERE id=?");
+			st.setString(1, product.getName());
+			st.setString(2, product.getDescription());
+			st.setDouble(3, product.getPrice());
+			st.setInt(4, product.getStock());
+			st.setString(5,product.getTag()); //no need to update img as uid does not change
+			st.setString(6,product.getUid());
 			
-			int result = stmt.executeUpdate();
+			int result = st.executeUpdate();
 			return result > 0 ? 1 : 0;
 			}
 			catch(SQLException | ClassNotFoundException ex) {
@@ -184,7 +198,7 @@ public class DatabaseController {
 			
 			PreparedStatement st = con.prepareStatement(StringUtils.INSERT_CUSTOMER);
 			
-			st.setString(1, userModel.getUserID());
+			st.setString(1, userModel.getUid());
 			st.setString(2, userModel.getFirstName());
 			st.setString(3, userModel.getLastName());
 			st.setString(4, userModel.getEmail());

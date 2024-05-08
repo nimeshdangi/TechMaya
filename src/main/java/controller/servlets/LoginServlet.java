@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 		if (loginResult == 1) {
 			//Successfully login
 			UserModel user = dbController.getUidAndName(email);
-			String uid = user.getUserID();
+			String uid = user.getUid();
 			String name = user.getFirstName();
 			HttpSession userSession = request.getSession();
 			userSession.setAttribute("userId", uid);
@@ -70,8 +70,10 @@ public class LoginServlet extends HttpServlet {
 			//Successfully login
 			UserModel user = dbController.getUidAndName(email);
 			String name = user.getFirstName();
+			String uid = user.getUid();
 			
 			HttpSession userSession = request.getSession();
+			userSession.setAttribute("userId", uid);
 			userSession.setAttribute("name", name);
 			userSession.setAttribute("role", "Admin");
 			userSession.setMaxInactiveInterval(30);

@@ -38,7 +38,7 @@ public class AuthenticationFilter implements Filter{
 				// Get the requested URI
 				String uri = req.getRequestURI();
 				System.out.println("Running filter in "+uri);
-				if (false){
+				if (true){
 					chain.doFilter(request, response);
 					return;
 				}
@@ -81,7 +81,7 @@ public class AuthenticationFilter implements Filter{
 				// Check if a session exists and if the 'USERNAME' attribute is set in the
 				// session.
 				// If both conditions are true, it indicates that the user is logged in.
-				boolean isLoggedIn = session != null && session.getAttribute(StringUtils.EMAIL) != null;
+				boolean isLoggedIn = session != null && session.getAttribute(StringUtils.USER_ID) != null;
 				// to remove session
 //				session.invalidate();
 
@@ -99,6 +99,7 @@ public class AuthenticationFilter implements Filter{
 						res.sendRedirect(req.getContextPath() + StringUtils.LOGIN_PAGE);
 					} else {
 						chain.doFilter(request, response);
+						return;
 					}
 				}
 				else if(isLoggedIn && !(!isRegister || isRegisterServlet)) {
@@ -125,12 +126,14 @@ public class AuthenticationFilter implements Filter{
 							res.sendRedirect(req.getContextPath() + StringUtils.WELCOME_PAGE);
 						} else {
 							chain.doFilter(request, response);
+							return;
 						}
 					} else {
 						if(isWelcome) {
 							res.sendRedirect(req.getContextPath() + "/pages/adminpanel.jsp");
 						} else {
 							chain.doFilter(request, response);
+							return;
 						}
 					}
 				}
@@ -138,6 +141,7 @@ public class AuthenticationFilter implements Filter{
 //				 the filter chain.
 				else {
 					chain.doFilter(request, response);
+					return;
 				}
 		
 	}

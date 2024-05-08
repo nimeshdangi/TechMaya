@@ -14,12 +14,11 @@ import javax.servlet.http.Part;
 public class UserModel implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String userID;
+	private String uid;
 	private String firstName, lastName, email, phoneNumber, address, password;
 	private LocalDate dob;
 	private String gender, role;
-	private Part imagePart;
-	private String image;
+	private String imageUrlFromPart;
 	
 	public UserModel() {
 		
@@ -41,32 +40,15 @@ public class UserModel implements Serializable{
 		this.gender = gender;
 		this.setRole(role);
 		UUID uid = UUID.randomUUID();
-		this.userID = uid.toString();
+		this.uid = uid.toString();
 	}
 
-
-
-	public UserModel(String firstName, String lastName, String gender, String email, String phoneNumber, String address, String password, String image) {
-		super();
-		
-		this.setFirstName(firstName);
-		this.setLastName(lastName);
-		this.setGender(gender);
-		//this.setDob(dob);
-		this.setEmail(email);
-		this.setPhoneNumber(phoneNumber);
-		this.setAddress(address);
-		this.setPassword(password);
-		this.setImage(image);
-		
-		
-	}
 	
-	public String getUserID() {
-		return userID;
+	public String getUid() {
+		return uid;
 	}
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setUserID(String uid) {
+		this.uid = uid;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -116,12 +98,7 @@ public class UserModel implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
-	}
+
 
 
 
@@ -133,6 +110,18 @@ public class UserModel implements Serializable{
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+
+
+	public String getImageUrlFromPart() {
+		return imageUrlFromPart;
+	}
+
+
+
+	public void setImageUrlFromPart(String imageUrlFromPart) {
+		this.imageUrlFromPart = imageUrlFromPart;
 	}
 }
 
