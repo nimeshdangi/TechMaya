@@ -24,6 +24,10 @@ public class DatabaseController {
 		return DriverManager.getConnection(url, user, pass);
 	}
 	
+	/**
+	 * This method gets all products from the products table.
+	 * @return products - an arraylist of ProductModel
+	 */
 	public ArrayList<ProductModel> getAllProducts() {
 		try {
 			PreparedStatement stmt = getConnection()
@@ -52,6 +56,51 @@ public class DatabaseController {
 		}
 	}
 	
+	/**
+	 * This method gets all list of products (list made based on tag) from the products table.
+	 * @return productsList - an arraylist of arraylist of  ProductModel
+	 */
+	public ArrayList<ArrayList<ProductModel>> getAllProductsList() {
+		try {
+			ArrayList<ArrayList<ProductModel>> productsList = new ArrayList<ArrayList<ProductModel>>();
+			for(String tag:StringUtils.PRODUCT_TAGS) { //gets a list of products with a specific tag, looping
+				PreparedStatement stmt = getConnection()
+						.prepareStatement("SELECT * FROM products WHERE tag=?");
+				stmt.setString(1, tag);
+				
+				ResultSet result = stmt.executeQuery();
+				
+				ArrayList<ProductModel> products = new ArrayList<ProductModel>();
+				
+				while(result.next()) {
+					ProductModel product = new ProductModel();
+					product.setUid(result.getString("id"));
+					product.setName(result.getString("name"));
+					product.setPrice(result.getDouble("price"));
+					product.setDescription(result.getString("description"));
+					product.setTag(result.getString("tag"));
+					product.setStock(result.getInt("stock"));				
+					product.setImageUrlFromPart(result.getString("image"));
+					products.add(product);
+				}
+				productsList.add(products);
+			}
+			return productsList;
+			
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * This method adds a product into the products table.
+	 * @param product - An instance of ProductModel class.
+	 * @return result - an integer specifying whether the insertion was successful or not.
+	 * 
+	 */
 	public int addProduct(ProductModel product) {
 		try(Connection con = getConnection()){
 			int total = this.getAllProducts().size()+1;
@@ -76,7 +125,12 @@ public class DatabaseController {
 			return -1;
 		}
 	}
-	
+	/**
+	 * This method gets a product from the product table.
+	 * @param id - A String representing a product id.
+	 * @return product - A product model of the specified product.
+	 * 
+	 */
 	public ProductModel getProduct(String id) {
 		try {
 		PreparedStatement stmt = getConnection()
@@ -85,7 +139,8 @@ public class DatabaseController {
 		ResultSet result = stmt.executeQuery();
 		if(result.next()) {
 			ProductModel product = new ProductModel();
-			product.setUid((result.getString("id")));
+			//product.setUid((result.getString("id")));
+			product.setUid(id);
 			product.setName(result.getString("name"));
 			product.setDescription(result.getString("description"));
 			product.setPrice(result.getDouble("price"));
@@ -97,7 +152,7 @@ public class DatabaseController {
 			
 		} else {
 			return null;
-		}
+			}
 		}
 		catch(SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
@@ -105,6 +160,50 @@ public class DatabaseController {
 		}
 	}
 	
+	/**
+	 * This method gets a list product from the product table based on tags, excluding the given uid.
+	 * @param tag - A String representing a product tag.
+	 * @param uid - A string representing a product id.
+	 * @return products - A list of product model.
+	 * 
+	 */
+	public ArrayList<ProductModel> getProductByTagExcludingId(String tag, String uid) {
+		try {
+		PreparedStatement stmt = getConnection()
+				.prepareStatement("SELECT * FROM products WHERE tag=? AND NOT id=?");
+		stmt.setString(1, tag);
+		stmt.setString(2, uid);
+		ResultSet result = stmt.executeQuery();
+		
+		ArrayList<ProductModel> products = new ArrayList<ProductModel>();
+		
+		while(result.next()) {
+			ProductModel product = new ProductModel();
+			product.setUid(result.getString("id"));
+			product.setName(result.getString("name"));
+			product.setPrice(result.getDouble("price"));
+			product.setDescription(result.getString("description"));
+			product.setTag(result.getString("tag"));
+			product.setStock(result.getInt("stock"));				
+			product.setImageUrlFromPart(result.getString("image"));
+			products.add(product);
+		}
+		return products;
+			
+		}
+		catch(SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * This method updates a product in the products table.
+	 * @param product - An instance of ProductModel class.
+	 * @return result - an integer specifying whether the insertion was successful or not.
+	 * 
+	 */
 	public int updateProduct(ProductModel product) {
 		try {
 			//IGNORING IMAGE FOR NOW
@@ -125,7 +224,11 @@ public class DatabaseController {
 				return -1;
 			}
 	}
-	
+	/**
+	 * This method gets all orders in the orders table.
+	 * @return orders - an arraylist of OrderModel instances.
+	 * 
+	 */
 	public ArrayList<OrderModel> getAllOrders() {
 		try {
 			PreparedStatement stmt = getConnection()
