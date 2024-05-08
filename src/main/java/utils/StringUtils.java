@@ -40,9 +40,9 @@ public class StringUtils {
     public static final String REGISTER_SERVLET = "/RegisterServlet";
     public static final String LOGOUT_SERVLET = "/LogoutServlet";
 	
-	public static final String INSERT_USER = "INSERT INTO users" +
-			"(first_name, last_name, email, dob, gender, Phone_number, Address, Password, Registration_Date)" +
-			"VALUES (?,?,?,?,?,?,?,?,NOW())";
+	public static final String INSERT_CUSTOMER = "INSERT INTO users" +
+			"(id,first_name, last_name, email, phone_number,address, password, dob, gender, role, registration_date)" +
+			"VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	
 	
 	public static final String GET_LOGIN_USER_INFO = "SELECT * FROM users WHERE email = ?";

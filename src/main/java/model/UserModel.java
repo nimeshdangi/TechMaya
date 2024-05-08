@@ -2,6 +2,9 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
+
+import javax.servlet.http.Part;
 
 /**
  * This is a model class for a user.
@@ -11,20 +14,45 @@ import java.time.LocalDate;
 public class UserModel implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private int userID;
-	private String firstName, lastName, gender, email, phoneNumber, address, password, image;
+	private String userID;
+	private String firstName, lastName, email, phoneNumber, address, password;
+	private LocalDate dob;
+	private String gender, role;
+	private Part imagePart;
+	private String image;
 	
 	public UserModel() {
 		
 	}
 	
+	
+	
+	public UserModel(String firstName, String lastName, String email, String phoneNumber, String address,
+			String password, LocalDate dob, String gender, String role) {
+		//The constructor for registering. This auto adds a unique ID.
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.password = password;
+		this.dob = dob;
+		this.gender = gender;
+		this.setRole(role);
+		UUID uid = UUID.randomUUID();
+		this.userID = uid.toString();
+	}
+
+
+
 	public UserModel(String firstName, String lastName, String gender, String email, String phoneNumber, String address, String password, String image) {
 		super();
 		
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setGender(gender);
-		this.setDob(dob);
+		//this.setDob(dob);
 		this.setEmail(email);
 		this.setPhoneNumber(phoneNumber);
 		this.setAddress(address);
@@ -34,10 +62,10 @@ public class UserModel implements Serializable{
 		
 	}
 	
-	public int getUserID() {
+	public String getUserID() {
 		return userID;
 	}
-	public void setUserID(int userID) {
+	public void setUserID(String userID) {
 		this.userID = userID;
 	}
 	public String getFirstName() {
@@ -93,6 +121,18 @@ public class UserModel implements Serializable{
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+
+
+	public String getRole() {
+		return role;
+	}
+
+
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }
 

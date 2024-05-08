@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import model.OrderModel;
@@ -17,9 +18,9 @@ import utils.StringUtils;
 public class DatabaseController {
 	public Connection getConnection() throws SQLException, ClassNotFoundException{
 		Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost:3306/techmayatwo";
-		String user = "root";
-		String pass = "";
+		String url = utils.Secrets.url;
+		String user = utils.Secrets.user;
+		String pass = utils.Secrets.pass;
 		return DriverManager.getConnection(url, user, pass);
 	}
 	
@@ -181,16 +182,19 @@ public class DatabaseController {
 				return -4; //Phone already exists.
 			}
 			
-			PreparedStatement st = con.prepareStatement(StringUtils.INSERT_USER);
+			PreparedStatement st = con.prepareStatement(StringUtils.INSERT_CUSTOMER);
 			
-			st.setString(1, userModel.getFirstName());
-			st.setString(2, userModel.getLastName());
-			st.setString(3, userModel.getEmail());
-			st.setDate(4, Date.valueOf(userModel.getDob()));
-			st.setString(5, userModel.getGender());
-			st.setString(6, userModel.getPhoneNumber());
-			st.setString(7, userModel.getAddress());
-			st.setString(8, PasswordEncryptionWithAes.encrypt(userModel.getEmail(), userModel.getPassword()));
+			st.setString(1, userModel.getUserID());
+			st.setString(2, userModel.getFirstName());
+			st.setString(3, userModel.getLastName());
+			st.setString(4, userModel.getEmail());
+			st.setString(5, userModel.getPhoneNumber());
+			st.setString(6, userModel.getAddress());
+			st.setString(7, PasswordEncryptionWithAes.encrypt(userModel.getEmail(), userModel.getPassword()));
+			st.setDate(8, Date.valueOf(userModel.getDob()));
+			st.setString(9, userModel.getGender());
+			st.setString(10, userModel.getRole());
+			st.setDate(11, Date.valueOf(LocalDate.now()));
 			
 			int result = st.executeUpdate();
 			return result > 0 ? 1 : 0;
@@ -234,6 +238,26 @@ public class DatabaseController {
 		} catch (SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 			return -1;
+		}
+	}
+	
+	public UserModel getUidAndName(String email) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("SELECT id,first_name FROM users WHERE email=?");
+			
+			st.setString(1, email);
+			ResultSet rs = st.executeQuery();
+			if(rs.next()) {
+				UserModel user = new UserModel();
+				user.setUserID(rs.getString("id"));
+				user.setFirstName(rs.getString("first_name"));
+				return user;
+			} else {
+				return null;
+			}
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
 		}
 	}
 	

@@ -33,10 +33,18 @@ public class AuthenticationFilter implements Filter{
 		// Cast the request and response to HttpServletRequest and HttpServletResponse
 				HttpServletRequest req = (HttpServletRequest) request;
 				HttpServletResponse res = (HttpServletResponse) response;
+				
 
 				// Get the requested URI
 				String uri = req.getRequestURI();
 				System.out.println("Running filter in "+uri);
+				if (false){
+					chain.doFilter(request, response);
+					return;
+				}
+				
+				//Redirects to login page right at start. Ensure it redirects to home page.s
+				
 
 				// Immediately allows requests for CSS files and the index page to pass
 				// through without further checks.

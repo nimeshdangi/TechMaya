@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Cookie;
 
 import controller.DatabaseController;
+import model.UserModel;
 import utils.StringUtils;
 
 /**
@@ -35,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.sendRedirect(request.getContextPath() + "/pages/helloworld.html");
+		response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
 	}
 
 	/**
@@ -51,41 +52,30 @@ public class LoginServlet extends HttpServlet {
 		
 		if (loginResult == 1) {
 			//Successfully login
-			
+			UserModel user = dbController.getUidAndName(email);
+			String uid = user.getUserID();
+			String name = user.getFirstName();
 			HttpSession userSession = request.getSession();
-			userSession.setAttribute("email", email);
+			userSession.setAttribute("userId", uid);
+			userSession.setAttribute("name", name);
+			userSession.setAttribute("role", "User");
 			userSession.setMaxInactiveInterval(30);
-			userSession.setAttribute("creation", userSession.getCreationTime());
-			
-			Cookie userCookie= new Cookie("email", email);
-			userCookie.setMaxAge(30*60);
-			response.addCookie(userCookie);
-			
-			Cookie helloCookie = new Cookie("hello", "Hellofromtheotherside");
-			helloCookie.setMaxAge(60);
-			response.addCookie(helloCookie);
-			
+						
+
 			//String successRegisterMessage = "Successfully Registered!";
 			//request.setAttribute("firstName", successRegisterMessage);
 			request.setAttribute(StringUtils.SUCCESS_MESSAGE, StringUtils.SUCCESS_LOGIN_MESSAGE);
 			response.sendRedirect(request.getContextPath() + StringUtils.WELCOME_PAGE);
 		} else if (loginResult == 2) {
 			//Successfully login
+			UserModel user = dbController.getUidAndName(email);
+			String name = user.getFirstName();
 			
 			HttpSession userSession = request.getSession();
-			userSession.setAttribute("email", email);
+			userSession.setAttribute("name", name);
 			userSession.setAttribute("role", "Admin");
 			userSession.setMaxInactiveInterval(30);
-			userSession.setAttribute("creation", userSession.getCreationTime());
-			
-			Cookie userCookie= new Cookie("email", email);
-			userCookie.setMaxAge(30*60);
-			response.addCookie(userCookie);
-			
-			Cookie helloCookie = new Cookie("hello", "Hellofromtheotherside");
-			helloCookie.setMaxAge(60);
-			response.addCookie(helloCookie);
-			
+
 			//String successRegisterMessage = "Successfully Registered!";
 			//request.setAttribute("firstName", successRegisterMessage);
 			request.setAttribute(StringUtils.SUCCESS_MESSAGE, StringUtils.SUCCESS_LOGIN_MESSAGE);
