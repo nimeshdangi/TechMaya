@@ -87,7 +87,7 @@
                     
                     <c:forEach var="product" items="${productsList}">
                     	<div class="admin-product">
-                    		<img src="/TechMaya${product.imageUrlFromPart}"/>
+                    		<img src="/TechMaya/resources/images/products/${product.imageUrlFromPart}"/>
                     		<p class="product-title"> ${product.name}</p>
                     		<p class="product-description"> ${product.description}</p>
                     		<div style="display:flex;justify-content: space-evenly; height:40px; width:100%;">

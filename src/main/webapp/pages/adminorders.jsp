@@ -71,8 +71,9 @@
                     		<td>
                     		<form action="/TechMaya/AdminOrdersServlet" method="post" style="display:flex; justify-content:space-between;">
                     			<select id="status" name="status" required>
-									<option value="pending" <c:if test="${order.status.equals('pending')}"> selected </c:if>>Pending</option>
-									<option value="delivered" <c:if test="${order.status.equals('delivered')}"> selected </c:if>>Delivered</option>
+									<option value="pending" <c:if test="${order.status.equals('Pending')}"> selected </c:if>>Pending</option>
+									<option value="delivered" <c:if test="${order.status.equals('Delivered')}"> selected </c:if>>Delivered</option>
+									<option value="failed" <c:if test="${order.status.equals('Failed')}"> selected </c:if>>Failed</option>
 								</select>
 								<input type="hidden" name="id" value="${order.id}" />
 								

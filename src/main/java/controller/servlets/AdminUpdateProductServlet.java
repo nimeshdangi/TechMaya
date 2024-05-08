@@ -32,6 +32,7 @@ public class AdminUpdateProductServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Only gets form...
 		//String productId = request.getParameter("updateId");
+		//Unncessary???
 		String productId = (String)request.getAttribute("productId");
 		System.out.println("AdminUpdateProductServlet productID: "+productId);
 		ProductModel product = dbController.getProduct(productId);

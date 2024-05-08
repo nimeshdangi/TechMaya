@@ -14,7 +14,7 @@ import utils.StringUtils;
 public class DatabaseController {
 	public Connection getConnection() throws SQLException, ClassNotFoundException{
 		Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost:3306/techmaya";
+		String url = "jdbc:mysql://localhost:3306/techmayatwo";
 		String user = "root";
 		String pass = "";
 		return DriverManager.getConnection(url, user, pass);
@@ -52,8 +52,7 @@ public class DatabaseController {
 			st.setString(1, String.valueOf(id));
 			st.setString(2, product.getName());
 			st.setString(3, product.getDescription());
-			String location = "/resources/images/products/" + product.getImageUrlFromPart();
-			//add ^ ////to changeee
+			String location = product.getImageUrlFromPart();
 			st.setString(4, location);
 			
 			System.out.println("Saving to database...");

@@ -11,8 +11,7 @@
 	<body>
 		<form action="/TechMaya/AdminUpdateProductServlet" method="post">
 			<label>Name: </label>
-            <input type="text" id="update-product-name" name="update-product-name" value="${product.name}"/>
-            
+            <input type="text" id="update-product-name" name="update-product-name" value="${product.name}"/>    
             
             <label>Description: </label>
             <input type="text" id="update-product-desc" name="update-product-desc" value="${product.description}"/>
