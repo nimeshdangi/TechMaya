@@ -123,7 +123,7 @@ h3 {
                         </select>
                         
             <label> Image (leave empty if you do not want to update): </label>
-            <input type="file" id="update-product-image" name="update-product-image" accept="image/*" required/>
+            <input type="file" id="update-product-image" name="update-product-image" accept="image/*" value="/TechMaya/resources/images/products/${product.uid}.png"/>
             <input type="hidden" name="update-product-id" value="${product.uid}" />
             <button>Update</button>
             

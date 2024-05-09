@@ -75,6 +75,7 @@ public class AdminUpdateProductServlet extends HttpServlet {
 		product.setTag(tag);
 		
 		if (!(imagePart==null)){ //if image has been uploaded
+			System.out.println("ImagePart is not null");
 			String savePath = StringUtils.IMAGE_DIR_SAVE_PATH;
 		    String fileName = product.getImageUrlFromPart();
 		    if(!fileName.isEmpty() && fileName != null) {
