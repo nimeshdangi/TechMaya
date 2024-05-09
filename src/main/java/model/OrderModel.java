@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class OrderModel implements Serializable{
 
@@ -10,29 +11,40 @@ public class OrderModel implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private String uid;
 	private LocalDate date;
-	private String user,status;
+	private Double grandTotal;
+	private String userId,status;
 	
 	
 	public OrderModel() {
 		
 	}
 	
-	public OrderModel(int id, LocalDate date, String user, String status) {
+	public OrderModel(Double grandTotal, String userId, String status) {
+		//used when uid is to be auto generated
+		//need to set date in dbController
 		super();
-		this.id = id;
-		this.date = date;
-		this.user = user;
+		this.uid = this.getRandomUid();
+		this.grandTotal = grandTotal;
+		this.userId = userId;
 		this.status = status;
 	}
 	
-	
-	public int getId() {
-		return id;
+	public OrderModel(String uid, LocalDate date, Double grandTotal, String userId, String status) {
+		super();
+		this.uid = uid;
+		this.date = date;
+		this.grandTotal = grandTotal;
+		this.userId = userId;
+		this.status = status;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public LocalDate getDate() {
 		return date;
@@ -40,11 +52,11 @@ public class OrderModel implements Serializable{
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public String getUser() {
-		return user;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser(String user) {
-		this.user = user;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getStatus() {
 		return status;
@@ -52,7 +64,21 @@ public class OrderModel implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+
+	public Double getGrandTotal() {
+		return grandTotal;
+	}
+
+
+	public void setGrandTotal(Double grandTotal) {
+		this.grandTotal = grandTotal;
+	}
 	
+	private String getRandomUid() {
+		UUID uid = UUID.randomUUID();
+		return uid.toString();
+	}
 	
 
 }

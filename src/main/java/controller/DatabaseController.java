@@ -240,10 +240,10 @@ public class DatabaseController {
 			
 			while(result.next()) {
 				OrderModel order = new OrderModel();
-				order.setId(Integer.parseInt(result.getString("id")));
+				//order.setId(Integer.parseInt(result.getString("id")));
 				order.setDate(result.getDate("date").toLocalDate());
 				
-				order.setUser(result.getString("user"));
+				//order.setUser(result.getString("user"));
 				order.setStatus(result.getString("status"));
 				orders.add(order);
 			}
@@ -260,7 +260,7 @@ public class DatabaseController {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement("UPDATE orders SET status=? WHERE id=?");
 			stmt.setString(1, order.getStatus());
-			stmt.setString(2, String.valueOf(order.getId()));
+			stmt.setString(2, order.getUid());
 	
 			int result = stmt.executeUpdate();
 			return result > 0 ? 1 : 0;
@@ -496,4 +496,89 @@ public class DatabaseController {
 		}
 	}
 	
+	public int addOrder(OrderModel order) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("INSERT INTO orders VALUES (?,?,?,?,?)");
+			st.setString(1, order.getUid());
+			st.setString(2, order.getUserId());
+			st.setDouble(3,order.getGrandTotal());
+			st.setDate(4, Date.valueOf(LocalDate.now()));
+			st.setString(5, order.getStatus());
+			int result = st.executeUpdate();
+			return result > 0 ? 1 : 0;
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public int addOrderDetails(String orderId, String userId) {
+		try(Connection con = getConnection()){
+			int result = 0;
+			ArrayList<CartProductModel> cartProducts = this.getCartProducts(userId);
+			for(CartProductModel cartProduct: cartProducts) {
+				PreparedStatement st = con.prepareStatement("INSERT INTO order_details VALUES (?,?,?,?)");
+				st.setString(1, orderId);
+				st.setString(2, cartProduct.getUid());
+				st.setInt(3,cartProduct.getQuantity());
+				st.setDouble(4,cartProduct.getPrice() * cartProduct.getQuantity());
+				result = st.executeUpdate();
+				result = result > 0 ? 1 : 0;
+			}
+			return result;
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+		
+	}
+	
+	public int getProductStock(String productId) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("SELECT stock FROM products WHERE id = ?");
+			st.setString(1, productId);
+
+			ResultSet result = st.executeQuery();
+			if(result.next()) {
+				return result.getInt("stock");
+			} else {
+				return 0;
+			}
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public int decreaseQuantity(String userId) {
+		try(Connection con = getConnection()){
+			int result = 0;
+			ArrayList<CartProductModel> cartProducts = this.getCartProducts(userId);
+			for(CartProductModel cartProduct: cartProducts) {
+				PreparedStatement st = con.prepareStatement("UPDATE products SET quantity=? WHERE id=?");
+				int productStock = this.getProductStock(cartProduct.getUid()); //need to ensure set quantity < stock
+				System.out.println("For id:"+cartProduct.getUid()+"\nproductStock is "+productStock);
+				st.setInt(1, productStock - cartProduct.getQuantity());
+				st.setString(2, cartProduct.getUid());
+				result = st.executeUpdate();
+				result = result > 0 ? 1 : 0;
+			}
+			return result;
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public int clearCart(String userId) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("DELETE FROM cart WHERE customer_id=?");
+			st.setString(1, userId);
+			int result = st.executeUpdate();
+			return result > 0 ? 1: 0;
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+	}
 }
