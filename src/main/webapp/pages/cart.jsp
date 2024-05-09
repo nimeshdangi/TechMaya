@@ -78,6 +78,7 @@ body {
     <c:forEach var="cartProduct" items="${cartProducts}">
     <tr>
     	<td><img src = "/TechMaya/resources/images/products/${cartProduct.uid}.png" style="width:50px;height:50px;"></td>
+    	<!--  Add Individual Total column-->
     	<td>${cartProduct.name}</td>
     	<td>NPR ${cartProduct.price}</td>
     	<!-- <td><button type = 'button'>-</button>${cartProduct.quantity}<button type = 'button'>+</button></td> -->

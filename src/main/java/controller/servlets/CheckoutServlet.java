@@ -39,7 +39,7 @@ public class CheckoutServlet extends HttpServlet {
 		OrderModel order = new OrderModel(total, userId, "Pending");
 		int addOrder = databaseController.addOrder(order);
 		int addOrderDetails = databaseController.addOrderDetails(order.getUid(), userId);
-		int decreaseProducts = databaseController.decreaseQuantity(userId); //problem airaxa
+		int decreaseProducts = databaseController.decreaseQuantity(userId);
 		int clearCart = databaseController.clearCart(userId);
 		System.out.println(""+addOrder+"  "+addOrderDetails+"  "+decreaseProducts+"  "+clearCart);
 		System.out.println("Redirecting to products");

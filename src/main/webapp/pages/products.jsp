@@ -6,82 +6,44 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Our Products</title>
-<style>
-.Product-display {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  margin: 30px 0;
-
-}
-
-.product {
-  justify-content: space-around;
-  text-align: center;
-  width: 360px;
-  height: 450px;
-  line-height: 25px;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px 0px;
-  text-shadow: 0.5px 0.5px #000000;
-  background-color: #FFFFFF;
-
-}
-
-.btn-product {
-  text-decoration: none;
-  color: white;
-  border-radius: 4px;
-  padding: 11px 34px;
-  border: none;
-  box-sizing: border-box;
-  background: #3644ad;
-  
-}
-
-.product button {
-  border: none;
-  margin-top: 45px;
-
-}
-
-.ratings {
-    color: #ffffff;
-}
-
-</style>
+<link rel="stylesheet" href="/TechMaya/stylesheets/style.css">
+<link rel="stylesheet" href="/TechMaya/stylesheets/products.css">
 </head>
-<body style="background-color: #f1f5f6">
+<body>
+	<jsp:include page="header.jsp" />
 	<!-- Logic: 
 		Outer loop loops a arraylist of arraylist. first item in inner arraylist is used to get title(tag).
 	 -->
 	 <c:forEach var="productList" items="${productsListList}">
-	 	<c:set var="titleSet" value="false"/>
-	 	<c:forEach var="product" items="${productList}">
-	 		<c:if test="${titleSet==false}">
-	 			<h1 id="heading-product-1" style="font-family: Courier New;; text-align:center;">${product.tag}</h1> 
-	 			<!-- Setting titleSet to true so titles are not added again -->
-	 			<c:set var="titleSet" value="true"/>
-	 		</c:if>
-	 		<section class="Product-display">
-	 			<div class="product">
-	 				<img src="/TechMaya/resources/images/products/${product.imageUrlFromPart}" width="200" height="200"/>
-	 				<p> ${product.name}</p>
-                    <p> ${product.description}</p>
-                    <p> Price: $${product.price}</p>
-                    <form action="/TechMaya/ProductServlet?id=${product.uid}" method="post">
-                    	<button>View</button>
-                    </form>
-        			<form action="/TechMaya/AddToCartServlet?id=${product.uid}" method="post">
-                    	<input type="hidden" name="product-quantity" value="1"/> <!-- Set default value to 1 if directly adding to cart from products page -->
-                    	<button class="buy-buttons">Add to Cart</button>
-                    </form>
-                    
-                    
-	 			</div>
-	 		</section>
-	 	</c:forEach>
+	 	<h1 style="font-family: Courier New;; text-align:center;">${productList[0].tag}</h1> <!-- Gets the tag for the first product in internal product list--> 
+	 	<div class="product-grid">
+	 		<c:forEach var="product" items="${productList}">	 			 			
+	        	<div class="product-card">
+			    	<div class="product-image">
+			        	<img src="/TechMaya/resources/images/products/${product.uid}.png">
+			        	<div class="overlay">
+			            	<button class="btn favorite" type="button">
+			            		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+							  	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+								</svg>
+			            	</button>
+			            	<form action="/TechMaya/AddToCartServlet?id=${product.uid}" method="post">
+                    			<input type="hidden" name="product-quantity" value="1"/> <!-- Set default value to 1 if directly adding to cart from products page -->
+                    			<button class="btn add-to-cart">ADD TO CART</button>
+                    		</form>
+			        	</div>
+			    	</div>
+			    	<div class="product-info">
+			        	<h3>${product.name}</h3>
+			        	<p class="price"><span class="discounted">Rs. ${product.price}</span></p>
+			        	<form action="/TechMaya/ProductServlet?id=${product.uid}" method="post">
+                    		<button>View</button>
+                    	</form>
+			    	</div>
+				</div>
+	 		</c:forEach>
+	 	</div>
 	 </c:forEach>
+	 <jsp:include page="footer.jsp" />
 </body>
 </html>
