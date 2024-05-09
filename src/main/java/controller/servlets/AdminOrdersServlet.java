@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.DatabaseController;
+import model.CustomerOrderModel;
 import model.OrderModel;
 
 /**
@@ -32,7 +33,7 @@ public class AdminOrdersServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Getting all orders...");
-		List<OrderModel> ordersList = databaseController.getAllOrders();
+		List<CustomerOrderModel> ordersList = databaseController.getAllCustomerOrders();
 		request.setAttribute("ordersList",ordersList);
 		System.out.println("Forwarding request...");
 		
@@ -49,7 +50,7 @@ public class AdminOrdersServlet extends HttpServlet {
 		
 		OrderModel order = new OrderModel();
 		order.setStatus(status);
-		order.setId(Integer.parseInt(id));
+		order.setUid(id);
 		int result = databaseController.updateOrderStatus(order);
 		doGet(request, response);
 	}

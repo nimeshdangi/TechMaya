@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import controller.DatabaseController;
+import model.CustomerOrderModel;
 import model.UserModel;
 
 /**
@@ -36,7 +37,10 @@ public class ProfileServlet extends HttpServlet {
 		String userId = (String) session.getAttribute("userId");
 		UserModel user = databaseController.getUser(userId);
 		request.setAttribute("user", user);
+		CustomerOrderModel customerOrders = databaseController.getCustomerOrders(userId);
+		request.setAttribute("orders", customerOrders);
 		request.getRequestDispatcher("/pages/profile.jsp").forward(request, response);
+		
 	}
 
 	/**

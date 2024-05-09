@@ -32,9 +32,9 @@
                             <a href="/TechMaya/ProfileServlet" class="login-btn">
                                 My Profile
                             </a>
-                            <form action="/TechMaya/LogoutServlet" method="post">
-                            	<button class="login-btn">Logout</button>
-                            </form>
+                            <a href="/TechMaya/LogoutServlet" class="login-btn">
+                                Logout
+                            </a>
             			<%
             		}
             	 %>

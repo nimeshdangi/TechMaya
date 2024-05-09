@@ -154,7 +154,7 @@ header, footer {
 					<img>
 					Feedback
 				</div>
-				<a href="#" class="logout-btn">Logout</a>
+				<a href="/TechMaya/LogoutServlet" class="logout-btn">Logout</a>
 			</div>
             
 	
