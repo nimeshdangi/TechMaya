@@ -10,7 +10,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import model.CartProductModel;
+import model.CustomerOrderModel;
 import model.OrderModel;
+import model.OrderProductModel;
 import model.ProductModel;
 import model.PasswordEncryptionWithAes;
 import model.UserModel;
@@ -225,51 +227,7 @@ public class DatabaseController {
 				return -1;
 			}
 	}
-	/**
-	 * This method gets all orders in the orders table.
-	 * @return orders - an arraylist of OrderModel instances.
-	 * 
-	 */
-	public ArrayList<OrderModel> getAllOrders() {
-		try {
-			PreparedStatement stmt = getConnection()
-					.prepareStatement("SELECT * FROM orders");
-			ResultSet result = stmt.executeQuery();
-			
-			ArrayList<OrderModel> orders = new ArrayList<OrderModel>();
-			
-			while(result.next()) {
-				OrderModel order = new OrderModel();
-				//order.setId(Integer.parseInt(result.getString("id")));
-				order.setDate(result.getDate("date").toLocalDate());
-				
-				//order.setUser(result.getString("user"));
-				order.setStatus(result.getString("status"));
-				orders.add(order);
-			}
-			return orders;
-		}
-		catch (SQLException | ClassNotFoundException ex) {
-			ex.printStackTrace();
-			return null;
-		}
-	}
 	
-	public int updateOrderStatus(OrderModel order) {
-		try {
-			PreparedStatement stmt = getConnection()
-					.prepareStatement("UPDATE orders SET status=? WHERE id=?");
-			stmt.setString(1, order.getStatus());
-			stmt.setString(2, order.getUid());
-	
-			int result = stmt.executeUpdate();
-			return result > 0 ? 1 : 0;
-			}
-			catch(SQLException | ClassNotFoundException ex) {
-				ex.printStackTrace();
-				return -1;
-			}
-	}
 
 	public int deleteProductInfo(String id) {
 		try (Connection con = getConnection()) {
@@ -609,5 +567,103 @@ public class DatabaseController {
 			ex.printStackTrace();
 			return null;
 		}
+	}
+	
+	public ArrayList<CustomerOrderModel> getCustomerOrders(String userId) {
+		//for an individual customer 
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("SELECT o.id, o.grand_total, o.date, o.status "
+					+ "FROM users u, orders o WHERE u.id=? AND u.id = o.customer_id");
+			st.setString(1, userId);
+
+			ResultSet result = st.executeQuery();
+			CustomerOrderModel customerOrder = new CustomerOrderModel();
+			ArrayList<CustomerOrderModel> customerOrders = new ArrayList<CustomerOrderModel>();
+			while(result.next()) {
+				customerOrder.setUid(result.getString("id"));
+				customerOrder.setGrandTotal(result.getDouble("grand_total"));
+				customerOrder.setDate(result.getDate("date").toLocalDate());
+				customerOrder.setStatus(result.getString("status"));
+				customerOrder.setOrderProducts(this.getOrderProducts(customerOrder.getUid())); //order-id
+				customerOrders.add(customerOrder);
+			}
+			return customerOrders;
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ArrayList<OrderProductModel> getOrderProducts(String orderId){
+		try {
+			PreparedStatement stmt = getConnection()
+					.prepareStatement("SELECT p.name, od.product_id, od.total, od.quantity"
+							+ " FROM products p, order_details od WHERE od.id=? AND p.id = od.product_id");
+			ResultSet result = stmt.executeQuery();
+			
+			ArrayList<OrderProductModel> orderProducts = new ArrayList<OrderProductModel>();
+			
+			while(result.next()) {
+				OrderProductModel orderProduct = new OrderProductModel();
+				orderProduct.setUid(result.getString("product_id")); //product-id
+				orderProduct.setTotal(result.getDouble("total"));
+				orderProduct.setQuantity(result.getInt("quantity"));
+				orderProduct.setName(result.getString("name"));
+				orderProducts.add(orderProduct);
+			}
+			return orderProducts;
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * This method gets all orders in the orders table.
+	 * @return orders - an arraylist of OrderModel instances.
+	 * 
+	 */
+	public ArrayList<CustomerOrderModel> getAllCustomerOrders() {
+		try {
+			PreparedStatement stmt = getConnection()
+					.prepareStatement("SELECT u.first_name, u.last_name, o.id, o.grand_total, o.date, o.status"
+							+ " FROM users u, orders o WHERE u.id = o.customer_id");
+			ResultSet result = stmt.executeQuery();
+			
+			ArrayList<CustomerOrderModel> customerOrders = new ArrayList<CustomerOrderModel>();
+			
+			while(result.next()) {
+				CustomerOrderModel customerOrder = new CustomerOrderModel();
+				customerOrder.setUid(result.getString("id"));
+				customerOrder.setUserFirstName(result.getString("first_name"));
+				customerOrder.setUserLastName(result.getString("last_name"));
+				customerOrder.setGrandTotal(result.getDouble("grand_total"));
+				customerOrder.setDate(result.getDate("date").toLocalDate());
+				customerOrder.setStatus(result.getString("status"));
+				customerOrders.add(customerOrder);
+			}
+			return customerOrders;
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public int updateOrderStatus(OrderModel order) {
+		try {
+			PreparedStatement stmt = getConnection()
+					.prepareStatement("UPDATE orders SET status=? WHERE id=?");
+			stmt.setString(1, order.getStatus());
+			stmt.setString(2, order.getUid());
+	
+			int result = stmt.executeUpdate();
+			return result > 0 ? 1 : 0;
+			}
+			catch(SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				return -1;
+			}
 	}
 }

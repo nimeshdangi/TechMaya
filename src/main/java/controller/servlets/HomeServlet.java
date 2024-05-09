@@ -6,23 +6,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import controller.DatabaseController;
-import model.CustomerOrderModel;
-import model.UserModel;
 
 /**
- * Servlet implementation class ProfileServlet
+ * Servlet implementation class HomeServlet
  */
-@WebServlet(asyncSupported = true, urlPatterns = { "/ProfileServlet" })
-public class ProfileServlet extends HttpServlet {
+@WebServlet(asyncSupported = true, urlPatterns = { "/HomeServlet" })
+public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private DatabaseController databaseController = new DatabaseController();   
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProfileServlet() {
+    public HomeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,16 +26,7 @@ public class ProfileServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpSession session = req.getSession(false); //ensuring that a new session is not created
-		
-		String userId = (String) session.getAttribute("userId");
-		UserModel user = databaseController.getUser(userId);
-		request.setAttribute("user", user);
-		CustomerOrderModel customerOrders = databaseController.getCustomerOrders(userId);
-		request.setAttribute("orders", customerOrders);
-		request.getRequestDispatcher("/pages/profile.jsp").forward(request, response);
-		
+		request.getRequestDispatcher("/pages/index.jsp").forward(request, response);
 	}
 
 	/**

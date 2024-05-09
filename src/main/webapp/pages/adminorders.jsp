@@ -190,16 +190,18 @@ button {
                 	<table>
                 	<tr>
                 	<th>ID</th>
-                	<th>Date</th>
                 	<th>User</th>
+                	<th>Date</th>
+                	<th>Grand Total</th>
                 	<th>Status</th>
                 	</tr>
                 	
                     <c:forEach var="order" items="${ordersList}">
                     	<tr>
-                    		<td> ${order.id}</td>
+                    		<td> ${order.uid}</td>
+                    		<td> ${order.userFirstName} ${order.userLastName}</td>
                     		<td> ${order.date}</td>
-                    		<td> ${order.user}</td>
+                    		<td>${order.grandTotal}</td>
                     		<td>
                     		<form action="/TechMaya/AdminOrdersServlet" method="post" style="display:flex; justify-content:space-between;">
                     			<select id="status" name="status" required>
@@ -207,7 +209,7 @@ button {
 									<option value="delivered" <c:if test="${order.status.equals('Delivered')}"> selected </c:if>>Delivered</option>
 									<option value="failed" <c:if test="${order.status.equals('Failed')}"> selected </c:if>>Failed</option>
 								</select>
-								<input type="hidden" name="id" value="${order.id}" />
+								<input type="hidden" name="id" value="${order.uid}" />
 								
 								<button>Update</button>
 							</form>
