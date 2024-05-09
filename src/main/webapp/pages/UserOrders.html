@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile</title>
+<style>
+        /* Existing CSS */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-container {
+            display: flex;
+            max-width: 1100px;
+            margin: 50px auto;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            height: 500px;
+        }
+
+        .menu {
+            width: 250px;
+            border-right: 1px solid #e7e7e7;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+        }
+        
+        .content {
+    	padding: 20px;
+    	flex-grow: 1;
+		}
+
+        /* New CSS for order table */
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order-table th,
+        .order-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .order-table th {
+            background-color: #f2f2f2;
+        }
+
+        .order-table img {
+            max-width: 50px;
+            max-height: 50px;
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="menu">
+            <div class="menu-item"><i class="icon-personal-info"></i>Personal Info</div>
+            <div class="menu-item"><i class="icon-change-password"></i>Change Password</div>
+            <div class="menu-item active"><i class="icon-my-orders"></i>My Orders</div>
+        </div>
+        <div class="content">
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Order Total</th>
+                        <th>Order Date</th>
+                        <th>Order Status</th>
+                        <th>Product Name</th>
+                        <th>Image</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Add Order rows here -->
+                    <tr>
+                        <td>#12345</td>
+                        <td>$99.99</td>
+                        <td>2023-05-01</td>
+                        <td>Delivered</td>
+                        <td>Wireless Headphones</td>
+                        <td><img src="https://via.placeholder.com/50x50" alt="Product Image"></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>#67890</td>
+                        <td>$49.99</td>
+                        <td>2023-04-15</td>
+                        <td>Shipped</td>
+                        <td>Smart Watch</td>
+                        <td><img src="https://via.placeholder.com/50x50" alt="Product Image"></td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>#23456</td>
+                        <td>$129.99</td>
+                        <td>2023-03-20</td>
+                        <td>Delivered</td>
+                        <td>Laptop Bag</td>
+                        <td><img src="https://via.placeholder.com/50x50" alt="Product Image"></td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
