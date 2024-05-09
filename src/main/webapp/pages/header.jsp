@@ -1,10 +1,9 @@
 <%@page import="javax.servlet.http.HttpSession"%>
 <%@page import="javax.servlet.http.HttpServletRequest"%>
-
 <%
     // Get the session and request objects
     HttpSession userSession = request.getSession();
-    String currentUser = (String) userSession.getAttribute("username");
+    String currentUser = (String) userSession.getAttribute("name");
     String contextPath = request.getContextPath();
 %>
 
@@ -22,8 +21,20 @@
                 <a href="contact.jsp">Contact</a>
             </div>
             <div>
-            	<a href="login.jsp" class="login-btn">Login</a>
-            	<a href="register.jsp" class="login-btn">Register</a>
+            	<%
+            		if (currentUser == null) {
+            			%>
+		            	<a href="login.jsp" class="login-btn">Login</a>
+		            	<a href="register.jsp" class="login-btn">Register</a>
+		            	<%
+            		} else {
+            			%>
+            			<a href="profile-page.jsp" class="login-btn">
+            				My Profile
+            			</a>
+            			<%
+            		}
+            	 %>
             </div>
         </div>
     </div>

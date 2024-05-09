@@ -119,7 +119,11 @@ public class AuthenticationFilter implements Filter{
 				else if (isLoggedIn) {
 					System.out.println(session.getAttribute("role"));
 					if(session.getAttribute("role") == "Admin") {
-						chain.doFilter(request, response);
+						if(isWelcome) {
+							res.sendRedirect(req.getContextPath() + "/pages/adminpanel.jsp");
+						} else {
+							chain.doFilter(request, response);
+						}
 					} else if(session.getAttribute("role") == null) {
 						System.out.println("From role null");
 						if(isAdminPanel) {
@@ -128,7 +132,11 @@ public class AuthenticationFilter implements Filter{
 							chain.doFilter(request, response);
 						}
 					} else {
-						res.sendRedirect(req.getContextPath() + "/pages/home.jsp");
+						if (isAdminPanel) {
+							res.sendRedirect(req.getContextPath() + "/pages/home.jsp");
+						}else {
+							chain.doFilter(request, response);
+						}
 					}
 				}
 //				 If none of the above conditions are met, allow the request to continue down
