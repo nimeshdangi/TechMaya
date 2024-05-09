@@ -1,11 +1,14 @@
 package model;
 
+import java.util.ArrayList;
+
 public class CustomerOrderModel extends OrderModel{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String userFirstName, userLastName;
+	private ArrayList<OrderProductModel> orderProducts;
 	
 	public CustomerOrderModel() {
 		super();
@@ -25,5 +28,13 @@ public class CustomerOrderModel extends OrderModel{
 
 	public void setUserFirstName(String userFirstName) {
 		this.userFirstName = userFirstName;
+	}
+
+	public ArrayList<OrderProductModel> getOrderProducts() {
+		return orderProducts;
+	}
+
+	public void setOrderProducts(ArrayList<OrderProductModel> orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 }

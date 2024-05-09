@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import model.CartProductModel;
 import model.CustomerOrderModel;
 import model.OrderModel;
+import model.OrderProductModel;
 import model.ProductModel;
 import model.PasswordEncryptionWithAes;
 import model.UserModel;
@@ -568,25 +569,51 @@ public class DatabaseController {
 		}
 	}
 	
-	public CustomerOrderModel getCustomerOrders(String userId) {
-		//for an individual customer
+	public ArrayList<CustomerOrderModel> getCustomerOrders(String userId) {
+		//for an individual customer 
 		try(Connection con = getConnection()){
-			PreparedStatement st = con.prepareStatement("SELECT u.first_name, u.last_name, o.id, o.grand_total, o.date, o.status "
+			PreparedStatement st = con.prepareStatement("SELECT o.id, o.grand_total, o.date, o.status "
 					+ "FROM users u, orders o WHERE u.id=? AND u.id = o.customer_id");
 			st.setString(1, userId);
 
 			ResultSet result = st.executeQuery();
 			CustomerOrderModel customerOrder = new CustomerOrderModel();
-			if(result.next()) {
-				customerOrder.setUid(userId);
-				customerOrder.setUserFirstName(result.getString("first_name"));
-				customerOrder.setUserLastName(result.getString("last_name"));
+			ArrayList<CustomerOrderModel> customerOrders = new ArrayList<CustomerOrderModel>();
+			while(result.next()) {
+				customerOrder.setUid(result.getString("id"));
 				customerOrder.setGrandTotal(result.getDouble("grand_total"));
 				customerOrder.setDate(result.getDate("date").toLocalDate());
 				customerOrder.setStatus(result.getString("status"));
+				customerOrder.setOrderProducts(this.getOrderProducts(customerOrder.getUid())); //order-id
+				customerOrders.add(customerOrder);
 			}
-			return customerOrder;
+			return customerOrders;
 		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ArrayList<OrderProductModel> getOrderProducts(String orderId){
+		try {
+			PreparedStatement stmt = getConnection()
+					.prepareStatement("SELECT p.name, od.product_id, od.total, od.quantity"
+							+ " FROM products p, order_details od WHERE od.id=? AND p.id = od.product_id");
+			ResultSet result = stmt.executeQuery();
+			
+			ArrayList<OrderProductModel> orderProducts = new ArrayList<OrderProductModel>();
+			
+			while(result.next()) {
+				OrderProductModel orderProduct = new OrderProductModel();
+				orderProduct.setUid(result.getString("product_id")); //product-id
+				orderProduct.setTotal(result.getDouble("total"));
+				orderProduct.setQuantity(result.getInt("quantity"));
+				orderProduct.setName(result.getString("name"));
+				orderProducts.add(orderProduct);
+			}
+			return orderProducts;
+		}
+		catch (SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 			return null;
 		}
