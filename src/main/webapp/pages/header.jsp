@@ -15,12 +15,12 @@
         <div class="navbar-container">
             <div class="logo">TechMaya</div>
             <div class="navbar-links">
-                <a href="index.jsp">Home</a>
+                <a href="/TechMaya/HomeServlet">Home</a>
                 <a href="/TechMaya/ProductsServlet">Product</a>
                 <a href="aboutus.jsp">About Us</a>
                 <a href="contact.jsp">Contact</a>
             </div>
-            <div>
+            <div style="display:flex; gap:50px;">
             	<%
             		if (currentUser == null) {
             			%>
@@ -32,6 +32,9 @@
                             <a href="/TechMaya/ProfileServlet" class="login-btn">
                                 My Profile
                             </a>
+                            <form action="/TechMaya/LogoutServlet" method="post">
+                            	<button class="login-btn">Logout</button>
+                            </form>
             			<%
             		}
             	 %>
