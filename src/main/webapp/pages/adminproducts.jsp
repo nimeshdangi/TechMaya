@@ -214,10 +214,10 @@ a {
                     <div style="display: flex;justify-content: center;align-items: center;">
                         <button type="button"><a href="pages/adminproductadd.jsp">Add</a></button>
                     </div>
-                    
-                    <c:forEach var="product" items="${productsList}">
-                    <div class="product-section">
                     <h2>Recently Added Products</h2>
+                    <c:forEach var="product" items="${productsList}">
+                    <div class="product-section" >
+                    
                     <div class="product-row">
                     	<div class="admin-product">
                     	<div style="height: 150px; width: 150px;">

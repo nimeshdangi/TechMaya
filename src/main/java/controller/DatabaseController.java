@@ -577,9 +577,9 @@ public class DatabaseController {
 			st.setString(1, userId);
 
 			ResultSet result = st.executeQuery();
-			CustomerOrderModel customerOrder = new CustomerOrderModel();
 			ArrayList<CustomerOrderModel> customerOrders = new ArrayList<CustomerOrderModel>();
 			while(result.next()) {
+				CustomerOrderModel customerOrder = new CustomerOrderModel();
 				customerOrder.setUid(result.getString("id"));
 				customerOrder.setGrandTotal(result.getDouble("grand_total"));
 				customerOrder.setDate(result.getDate("date").toLocalDate());
@@ -598,7 +598,8 @@ public class DatabaseController {
 		try {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement("SELECT p.name, od.product_id, od.total, od.quantity"
-							+ " FROM products p, order_details od WHERE od.id=? AND p.id = od.product_id");
+							+ " FROM products p, order_details od WHERE od.order_id=? AND p.id = od.product_id");
+			stmt.setString(1, orderId);
 			ResultSet result = stmt.executeQuery();
 			
 			ArrayList<OrderProductModel> orderProducts = new ArrayList<OrderProductModel>();

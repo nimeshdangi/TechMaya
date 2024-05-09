@@ -15,7 +15,7 @@
   <div class="menu">
     <div class="menu-item"><i class="icon-personal-info"></i>Personal Info</div>
     <div class="menu-item"><i class="icon-change-password"></i>Change Password</div>
-    <div class="menu-item"><i class="icon-my-orders"></i>My Orders</div>
+    <div class="menu-item"><i class="icon-my-orders"></i><a href="/TechMaya/ProfileOrdersServlet">My Orders</a></div>
   </div>
   <div class="user-info">
     <div class="profile-picture">

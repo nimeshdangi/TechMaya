@@ -2,6 +2,7 @@ package controller.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,16 +16,17 @@ import model.CustomerOrderModel;
 import model.UserModel;
 
 /**
- * Servlet implementation class ProfileServlet
+ * Servlet implementation class ProfileOrdersServlet
  */
-@WebServlet(asyncSupported = true, urlPatterns = { "/ProfileServlet" })
-public class ProfileServlet extends HttpServlet {
+@WebServlet(asyncSupported = true, urlPatterns = { "/ProfileOrdersServlet" })
+public class ProfileOrdersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private DatabaseController databaseController = new DatabaseController();   
+	private DatabaseController databaseController = new DatabaseController();
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProfileServlet() {
+    public ProfileOrdersServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,16 +39,18 @@ public class ProfileServlet extends HttpServlet {
 		HttpSession session = req.getSession(false); //ensuring that a new session is not created
 		
 		String userId = (String) session.getAttribute("userId");
-		UserModel user = databaseController.getUser(userId);
-		request.setAttribute("user", user);
-		request.getRequestDispatcher("/pages/profile.jsp").forward(request, response);
+		List<CustomerOrderModel> customerOrders = databaseController.getCustomerOrders(userId);
+		request.setAttribute("orders", customerOrders);
+		for(CustomerOrderModel cus: customerOrders) {
+			System.out.println(cus.getUid());
+		}
+		request.getRequestDispatcher("/pages/profileorders.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
