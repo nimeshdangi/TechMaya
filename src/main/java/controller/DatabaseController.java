@@ -367,7 +367,7 @@ public class DatabaseController {
 			ResultSet rs = st.executeQuery();
 			if(rs.next()) {
 				UserModel user = new UserModel();
-				user.setUserID(rs.getString("id"));
+				user.setUid(rs.getString("id"));
 				user.setFirstName(rs.getString("first_name"));
 				return user;
 			} else {
@@ -586,6 +586,28 @@ public class DatabaseController {
 		} catch (SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 			return -1;
+		}
+	}
+	
+	public UserModel getUser(String userId) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("SELECT * FROM users WHERE id = ?");
+			st.setString(1, userId);
+
+			ResultSet result = st.executeQuery();
+			UserModel user = new UserModel();
+			if(result.next()) {
+				user.setUid(userId);
+				user.setFirstName(result.getString("first_name"));
+				user.setLastName(result.getString("last_name"));
+				user.setEmail(result.getString("email"));
+				user.setPhoneNumber(result.getString("phone_number"));
+				user.setAddress(result.getString("address"));
+			}
+			return user;
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
 		}
 	}
 }

@@ -29,7 +29,7 @@
 		            	<%
             		} else {
             			%>
-                            <a href="profile-page.jsp" class="login-btn">
+                            <a href="/TechMaya/ProfileServlet" class="login-btn">
                                 My Profile
                             </a>
             			<%
