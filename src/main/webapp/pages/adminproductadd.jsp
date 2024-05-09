@@ -12,10 +12,14 @@
 /* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f5f5f5;
-    background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Delectronics&psig=AOvVaw0BfzgPrRruN7ltmbQIkH6Y&ust=1715343625065000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIiJv5_HgIYDFQAAAAAdAAAAABAE');
-    height: 100%;
-    width: 100%;
+    
+    background-image: url('https://img.freepik.com/free-vector/gradient-technology-futuristic-background_23-2149122421.jpg');
+    
+    background-size: cover; 
+    
+    background-position: center; 
+    
+    background-attachment: fixed; 
 }
 
 /* Overlay Container Styles */
@@ -34,8 +38,9 @@ body {
 }
 
 /* Form Styles */
-form div {
-    margin-bottom: 15px;
+form {
+    margin: 5px;
+    
 }
 
 label {
@@ -130,7 +135,7 @@ h3 {
                         <input type="file" id="add-product-image" name="add-product-image" accept="image/*" required/>
                         <br>
                     </div>
-                    <div>
+                    <div style= "margin-top: 10px;">
                         <button>Add</button>
                     </div>
      </form>

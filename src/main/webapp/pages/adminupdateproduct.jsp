@@ -11,13 +11,19 @@
 /* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f5f5f5;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
     padding: 20px;
+    background-image: url('https://img.freepik.com/free-vector/gradient-technology-futuristic-background_23-2149122421.jpg');
+    
+    background-size: cover; 
+    
+    background-position: center; 
+    
+    background-attachment: fixed; 
 }
 
 /* Form Container Styles */
