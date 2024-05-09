@@ -125,12 +125,6 @@ public class AuthenticationFilter implements Filter{
 						} else {
 							chain.doFilter(request, response);
 						}
-					} else {
-						if (isAdminPanel) {
-							res.sendRedirect(req.getContextPath() + "/pages/home.jsp");
-						}else {
-							chain.doFilter(request, response);
-						}
 					} else if(session.getAttribute("role") == null) {
 						System.out.println("From role null");
 						if(isAdminPanel) {
@@ -148,6 +142,7 @@ public class AuthenticationFilter implements Filter{
 						}
 					}
 				}
+				
 //				 If none of the above conditions are met, allow the request to continue down
 //				 the filter chain.
 				else {

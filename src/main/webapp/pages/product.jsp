@@ -378,5 +378,7 @@
 			</div>
 	    </div>
 		<jsp:include page="footer.jsp" />
+	    <div class="footer-section">
+	    </div>
 	</body>
 </html>
