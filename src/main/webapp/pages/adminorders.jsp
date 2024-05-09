@@ -16,6 +16,22 @@ body {
     background-color: #f5f5f5;
 }
 
+.logout-btn {
+    display: block;
+    text-align: center;
+    background-color: #e74c3c;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    margin-top: 200px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
+
 /* Container Styles */
 #container {
     display: flex;
@@ -157,6 +173,8 @@ button {
 					<img>
 					Feedback
 				</div>
+				<a href="#" class="logout-btn">Logout</a>
+				
 			</div>
             
 	
