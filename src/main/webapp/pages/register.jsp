@@ -69,7 +69,7 @@
 			  </div>
 			  <button type="submit" class="login-button">Register</button>
 			  <div class="signup-link">
-			    Already a member? <a href="login.jsp">Login Now</a>
+			    Already a member? <a href="pages/login.jsp">Login Now</a>
 			  </div>
 			</form>
 		</div>

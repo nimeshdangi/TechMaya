@@ -44,7 +44,7 @@
 	text-decoration: none;
     border: 1px solid white;
     border-radius: 5px;
-    padding: 8px 20px;
+    padding: 8px 20px !important;
 }
 
 .login-btn:hover {

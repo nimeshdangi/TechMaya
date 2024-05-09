@@ -39,7 +39,7 @@
 		    </div>
 		    <button type="submit" class="login-button">Login Now</button>
 		    <div class="signup-link">
-		      Not a member? <a href="register.jsp">Register Now</a>
+		      Not a member? <a href="/TechMaya/pages/register.jsp">Register Now</a>
 		    </div>
 		  </form>
 		</div>
