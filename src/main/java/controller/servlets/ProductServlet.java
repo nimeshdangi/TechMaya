@@ -32,7 +32,7 @@ public class ProductServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Getting product...");
-		String uid = request.getParameter("product-id");
+		String uid = request.getParameter("id"); //from query param
 		ProductModel product = databaseController.getProduct(uid);
 		request.setAttribute("product",product);
 		

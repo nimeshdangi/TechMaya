@@ -70,12 +70,10 @@
 	 				<p> ${product.name}</p>
                     <p> ${product.description}</p>
                     <p> Price: $${product.price}</p>
-                    <form action="/TechMaya/ProductServlet" method="post">
-                    	<input type="hidden" name="product-id" value="${product.uid}"/>
+                    <form action="/TechMaya/ProductServlet?id=${product.uid}" method="post">
                     	<button>View</button>
                     </form>
-        			<form action="/TechMaya/AddToCartServlet" method="post">
-                    	<input type="hidden" name="product-id" value="${product.uid}"/>
+        			<form action="/TechMaya/AddToCartServlet?id=${product.uid}" method="post">
                     	<input type="hidden" name="product-quantity" value="1"/> <!-- Set default value to 1 if directly adding to cart from products page -->
                     	<button class="buy-buttons">Add to Cart</button>
                     </form>

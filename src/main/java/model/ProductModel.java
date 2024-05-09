@@ -30,7 +30,7 @@ public class ProductModel implements Serializable{
 		super();
 		//while adding product
 		this.name = name;
-		this.description = description;
+		this.description = description;	
 		this.imageUrlFromPart = imageUrlFromPart;
 		this.price = price;
 		this.stock = stock;

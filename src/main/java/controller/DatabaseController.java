@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import model.CartProductModel;
 import model.OrderModel;
 import model.ProductModel;
 import model.PasswordEncryptionWithAes;
@@ -385,8 +386,13 @@ public class DatabaseController {
 			if (this.productExistsInCart(userId, productId)) {
 				System.out.println("Item already exists in cart!!!");
 				System.out.println("Incrementing the quantity!!!"); //need to check max quantity in stock
-				this.UpdateProductInCart(userId, productId, quantity+1);
-				return 0;
+				int cartQuantity = this.getQuantityinCart(userId, productId);
+				if (cartQuantity==0) {
+					//if an error occured;
+					return 0;
+				}
+				this.UpdateProductInCart(userId, productId, cartQuantity+quantity); //quantity is 1 in products page
+				return 1;
 			}
 			
 			PreparedStatement st = con.prepareStatement("INSERT INTO cart VALUES (?,?,?)");
@@ -440,20 +446,53 @@ public class DatabaseController {
 		}
 	}
 	
-	//Temp. Print all cart items
-	public void getCartProducts(String userId) {
+	private int getQuantityinCart(String userId, String productId) {
 		try(Connection con = getConnection()){
-			//to add: +1 product if item already exists in cart
-			PreparedStatement st = con.prepareStatement("SELECT products.name productName,cart.quantity productQuantity FROM products, cart WHERE customer_id=? AND cart.product_id=products.id");
+			PreparedStatement st = con.prepareStatement("SELECT quantity FROM cart WHERE customer_id = ? AND product_id = ?");
 			st.setString(1, userId);
-			ResultSet rs = st.executeQuery();
-			while(rs.next()) {
-				System.out.println("Product: "+rs.getString("productName"));
-				System.out.println("Quantity: "+rs.getInt("productQuantity"));
+			st.setString(2, productId);
+
+			ResultSet result = st.executeQuery();
+			if(result.next()) {
+				return result.getInt("quantity");
+			} else {
+				return 0;
 			}
 		}
 		catch (SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public ArrayList<CartProductModel> getCartProducts(String userId) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement(
+					"SELECT products.id uid, products.name productName, products.stock productStock, products.price productPrice, cart.quantity productQuantity "
+					+ "FROM products, cart "
+					+ "WHERE customer_id=?"
+					+ "AND products.id=cart.product_id"
+					);
+			st.setString(1, userId);
+			ArrayList<CartProductModel> cartProducts = new ArrayList<CartProductModel>();
+			
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				CartProductModel cartProduct = new CartProductModel();
+				cartProduct.setUid(rs.getString("uid"));
+				cartProduct.setName(rs.getString("productName"));
+				cartProduct.setStock(rs.getInt("productStock"));
+				cartProduct.setPrice(rs.getDouble("productPrice"));
+				cartProduct.setQuantity(rs.getInt("productQuantity"));
+				cartProducts.add(cartProduct);
+				
+				System.out.println(cartProduct.getUid());
+			}
+			return cartProducts;
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
 		}
 	}
 	
