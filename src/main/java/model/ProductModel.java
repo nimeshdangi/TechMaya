@@ -149,6 +149,7 @@ public class ProductModel implements Serializable{
 		File fullFile = new File(fullFilePath);
     	BufferedImage productImage = ImageIO.read(fullFile); //reads original file as buffered image. cannot read webp
     	File pngImage = new File(savePath+this.getUid()+".png"); //creates an empty file as png
+    	if(productImage==null) {return;} //return if imagePart was empty ->productImage
     	ImageIO.write(productImage, "png", pngImage); //transcodes the file as png
     	System.out.println("Saving to png");
     	fullFile.delete(); //deletes the original file

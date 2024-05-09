@@ -39,18 +39,11 @@ public class ProductServlet extends HttpServlet {
 		List<ProductModel> products = databaseController.getProductByTagExcludingId(product.getTag(), uid);
 		request.setAttribute("similarProducts", products);
 		
-		//test
-		System.out.println("in productservlet");
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpSession session = req.getSession(false); //ensuring that a new session is not created
-		String userId = (String) session.getAttribute("userId");
-		databaseController.getCartProducts(userId);
-		
 		request.getRequestDispatcher("/pages/productdetails.jsp").forward(request, response);
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		doGet(request, response); //needed for ?query=param
 	}
 }
