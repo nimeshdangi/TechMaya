@@ -76,7 +76,7 @@ public class LoginServlet extends HttpServlet {
 			userSession.setAttribute("userId", uid);
 			userSession.setAttribute("name", name);
 			userSession.setAttribute("role", "Admin");
-			userSession.setMaxInactiveInterval(60);
+			userSession.setMaxInactiveInterval(60*3);
 
 			//String successRegisterMessage = "Successfully Registered!";
 			//request.setAttribute("firstName", successRegisterMessage);

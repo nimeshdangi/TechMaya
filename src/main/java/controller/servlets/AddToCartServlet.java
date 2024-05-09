@@ -50,9 +50,7 @@ public class AddToCartServlet extends HttpServlet {
 		
 		databaseController.AddProductToCart(userId, productId, quantity);
 		response.sendRedirect("/TechMaya/ProductsServlet");
-		//request.getRequestDispatcher("/ProductsServlet").forward(request, response);
 		
-		//doGet(request, response);
 	}
 
 }

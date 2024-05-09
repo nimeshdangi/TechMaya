@@ -15,7 +15,7 @@
         <div class="navbar-container">
             <div class="logo">TechMaya</div>
             <div class="navbar-links">
-                <a href="home.jsp">Home</a>
+                <a href="index.jsp">Home</a>
                 <a href="/TechMaya/ProductsServlet">Product</a>
                 <a href="aboutus.jsp">About Us</a>
                 <a href="contact.jsp">Contact</a>
@@ -24,8 +24,8 @@
             	<%
             		if (currentUser == null) {
             			%>
-                            <a href="login.jsp" class="login-btn">Login</a>
-                            <a href="register.jsp" class="login-btn">Register</a>
+                            <a href="/TechMaya/LoginServlet" class="login-btn">Login</a>
+                            <a href="/TechMaya/RegisterServlet" class="login-btn">Register</a>
 		            	<%
             		} else {
             			%>

@@ -385,13 +385,7 @@ public class DatabaseController {
 
 			if (this.productExistsInCart(userId, productId)) {
 				System.out.println("Item already exists in cart!!!");
-				System.out.println("Incrementing the quantity!!!"); //need to check max quantity in stock
-				int cartQuantity = this.getQuantityinCart(userId, productId);
-				if (cartQuantity==0) {
-					//if an error occured;
-					return 0;
-				}
-				this.UpdateProductInCart(userId, productId, cartQuantity+quantity); //quantity is 1 in products page
+				this.UpdateProductInCart(userId, productId, quantity); //quantity is 1 in products page
 				return 1;
 			}
 			
@@ -574,6 +568,19 @@ public class DatabaseController {
 		try(Connection con = getConnection()){
 			PreparedStatement st = con.prepareStatement("DELETE FROM cart WHERE customer_id=?");
 			st.setString(1, userId);
+			int result = st.executeUpdate();
+			return result > 0 ? 1: 0;
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public int deleteFromCart(String userId, String productId) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("DELETE FROM cart WHERE customer_id=? AND product_id=?");
+			st.setString(1, userId);
+			st.setString(2, productId);
 			int result = st.executeUpdate();
 			return result > 0 ? 1: 0;
 		} catch (SQLException | ClassNotFoundException ex) {

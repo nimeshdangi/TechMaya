@@ -59,6 +59,9 @@ body {
     box-shadow: 0 0 0 4px lighten(red, 40%);
   }
 }
+
+a:visited, a:hover, a:focus, a:active { text-decoration: none; color:black; }
+
 </style>
 
 </head>
@@ -72,6 +75,7 @@ body {
       <th>Name</th>
       <th>Price</th>
       <th>Quantity</th>
+      <th>Total</th>
       <th>Remove</th>
     </tr>
     <c:set var="total" value="0"/>
@@ -79,19 +83,23 @@ body {
     <tr>
     	<td><img src = "/TechMaya/resources/images/products/${cartProduct.uid}.png" style="width:50px;height:50px;"></td>
     	<!--  Add Individual Total column-->
-    	<td>${cartProduct.name}</td>
+    	<td><a href="/TechMaya/ProductServlet?id=${cartProduct.uid}">${cartProduct.name}</a></td>
     	<td>NPR ${cartProduct.price}</td>
     	<!-- <td><button type = 'button'>-</button>${cartProduct.quantity}<button type = 'button'>+</button></td> -->
-    	<td><button type='number'>-</button> ${cartProduct.quantity}<button type='number'>+</button></td>
+    	<td>${cartProduct.quantity}</td>
+    	<td> NRs. ${cartProduct.price *cartProduct.quantity} </td>
     	<c:set var="total" value="${total + cartProduct.price *cartProduct.quantity }"/>
-    	<td><button class="btn btn-delete">
-  		<span>Delete</span>
-		</button></td>
+    	<td>
+    		<form action="/TechMaya/ModifyCartServlet" method="post">
+    		<input type="hidden" name="productId" value="${cartProduct.uid}"/>
+    		<button class="btn btn-delete">
+  				<span>Delete</span>
+			</button>
+			</form>
+		</td>
     </tr>
     </c:forEach>
-  </table>
-  <button>Update Cart</button>
-  
+  </table>  
 
   <form class="cart-summary" method="post" action="/TechMaya/CheckoutServlet">
     <h3>Summary</h3>
