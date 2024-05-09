@@ -165,6 +165,7 @@ public class DatabaseController {
 	
 	/**
 	 * This method gets a list product from the product table based on tags, excluding the given uid.
+	 * This is done to get similar products.
 	 * @param tag - A String representing a product tag.
 	 * @param uid - A string representing a product id.
 	 * @return products - A list of product model.
@@ -666,5 +667,45 @@ public class DatabaseController {
 				ex.printStackTrace();
 				return -1;
 			}
+	}
+	
+	public ArrayList<ProductModel> getFilteredProducts(String name){
+		try {
+			PreparedStatement stmt = getConnection()
+					.prepareStatement("SELECT * FROM products WHERE LOWER(name) LIKE LOWER(?)");
+			stmt.setString(1, "%" + name.toLowerCase() + "%");
+			ResultSet result = stmt.executeQuery();
+			
+			ArrayList<ProductModel> products = new ArrayList<ProductModel>();
+			
+			while(result.next()) {
+				ProductModel product = this.productFromResultSet(result);
+				products.add(product);
+			}
+			return products;
+				
+			}
+			catch(SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				return null;
+			}
+	}
+		
+	private ProductModel productFromResultSet(ResultSet result) {
+		try {
+		ProductModel product = new ProductModel();
+		product.setUid(result.getString("id"));
+		product.setName(result.getString("name"));
+		product.setPrice(result.getDouble("price"));
+		product.setDescription(result.getString("description"));
+		product.setTag(result.getString("tag"));
+		product.setStock(result.getInt("stock"));				
+		product.setImageUrlFromPart(result.getString("image"));
+		return product;
+		
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+			return null;
+		}
 	}
 }

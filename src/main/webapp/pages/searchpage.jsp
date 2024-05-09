@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,13 +136,18 @@ body {
             </div>
         </div>
         <div class="main-content">
-            <div class="search-bar">
-                <input type="text" placeholder="Search">
+            <form class="search-bar" method="post" action="/TechMaya/SearchServlet">
+                <input type="text" name="searchQuery" placeholder="Search">
                 <span class="search-icon">&#128269;</span>
-            </div>
+            </form>
             <div class="search-message">
                 <p>Search to get started</p>
             </div>
+            
+            <c:forEach var="product" items="${products}">
+            <p>${product.name}</p>
+            <p>${product.price }</p>
+            </c:forEach>
         </div>
     </div>
     <jsp:include page="footer.jsp" />
