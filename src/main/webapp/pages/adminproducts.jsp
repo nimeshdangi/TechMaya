@@ -204,7 +204,7 @@ a {
                     <div class="product-row">
                     	<div class="admin-product">
                     	<div style="height: 150px; width: 150px;">
-                    		<img src="/TechMaya/resources/images/products/${product.imageUrlFromPart}"/>
+                    		<img src="/TechMaya/resources/images/products/${product.uid}.png"/>
                     	</div>
                     		<p class="product-title"> ${product.name}</p>
                     		<p class="product-description"> ${product.description}</p>

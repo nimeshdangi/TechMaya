@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<%@page import="javax.servlet.http.HttpServletRequest"%>
+<%
+    // Get the session and request objects
+    HttpSession userSession = request.getSession();
+    String userId = (String) userSession.getAttribute("userId");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,19 +48,23 @@
           <li>Shipping Fee: <span>Free</span></li>
         </ul>
       </div>
-
+		<c:if test="${userId!=null}"> 
       <form class = "purchase-info" action="/TechMaya/AddToCartServlet?id=${product.uid}" method="post">
         <input type = "number" name="product-quantity" min = "1" value = "1" max="${product.stock }">
         <button class = "btn">
           Add to Cart <i class = "fas fa-shopping-cart"></i>
         </button>
       </form>
+      </c:if>
       
-      <form class = "purchase-info" action="/TechMaya/AddToCartServlet">
+      <c:if test="${userId==null}"> 
+      <form class = "purchase-info" action="/TechMaya/LoginServlet">
+        <input type = "number" name="product-quantity" min = "1" value = "1" max="${product.stock }">
         <button class = "btn">
-          Go to Cart <i class = "fas fa-shopping-cart"></i>
+          Add to Cart <i class = "fas fa-shopping-cart"></i>
         </button>
       </form>
+      </c:if>
      
      <h2 class = "similar-products">Similar Products</h2>
   	<div class = "img-select">
