@@ -36,13 +36,15 @@
   <button>Update Cart</button>
   
 
-  <div class="cart-summary">
+  <form class="cart-summary" method="post" action="/TechMaya/CheckoutServlet">
     <h3>Summary</h3>
     <p>Subtotal: NPR ${total}</p>
     <p>Shipping Cost: N/A</p>
     <p>Grand Total: NPR ${total}</p>
-    <a href="#" class="checkout-btn">Proceed to Checkout</a>
-  </div>
+    <input type="hidden" name="product-total" value="${total}"/>
+    <p> We only support cash on delivery.</p>
+    <button class="checkout-btn">Proceed to Checkout</button>
+  </form>
 </div>
 
 </body>
