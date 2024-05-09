@@ -24,14 +24,14 @@
             	<%
             		if (currentUser == null) {
             			%>
-		            	<a href="login.jsp" class="login-btn">Login</a>
-		            	<a href="register.jsp" class="login-btn">Register</a>
+                            <a href="login.jsp" class="login-btn">Login</a>
+                            <a href="register.jsp" class="login-btn">Register</a>
 		            	<%
             		} else {
             			%>
-            			<a href="profile-page.jsp" class="login-btn">
-            				My Profile
-            			</a>
+                            <a href="profile-page.jsp" class="login-btn">
+                                My Profile
+                            </a>
             			<%
             		}
             	 %>
