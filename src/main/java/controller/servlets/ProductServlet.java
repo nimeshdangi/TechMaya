@@ -46,7 +46,7 @@ public class ProductServlet extends HttpServlet {
 		String userId = (String) session.getAttribute("userId");
 		databaseController.getCartProducts(userId);
 		
-		request.getRequestDispatcher("/pages/product.jsp").forward(request, response);
+		request.getRequestDispatcher("/pages/productdetails.jsp").forward(request, response);
 	}
 
 

@@ -555,7 +555,7 @@ public class DatabaseController {
 			int result = 0;
 			ArrayList<CartProductModel> cartProducts = this.getCartProducts(userId);
 			for(CartProductModel cartProduct: cartProducts) {
-				PreparedStatement st = con.prepareStatement("UPDATE products SET quantity=? WHERE id=?");
+				PreparedStatement st = con.prepareStatement("UPDATE products SET stock=? WHERE id=?");
 				int productStock = this.getProductStock(cartProduct.getUid()); //need to ensure set quantity < stock
 				System.out.println("For id:"+cartProduct.getUid()+"\nproductStock is "+productStock);
 				st.setInt(1, productStock - cartProduct.getQuantity());
