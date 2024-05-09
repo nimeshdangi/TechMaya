@@ -6,7 +6,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Admin Products Panel</title>
-<link rel="stylesheet" href="/TechMaya/stylesheets">
+
 	<style>
  		/* General Styles */
 body {
@@ -148,8 +148,20 @@ a {
 .remove-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
+.product-section {
+    margin-top: 30px;
+}
+
+.product-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
     	
-    </style>
+</style>
 </head>
 	<body>
 		<div id="container">
@@ -187,8 +199,13 @@ a {
                     </div>
                     
                     <c:forEach var="product" items="${productsList}">
+                    <div class="product-section">
+                    <h2>Recently Added Products</h2>
+                    <div class="product-row">
                     	<div class="admin-product">
+                    	<div style="height: 150px; width: 150px;">
                     		<img src="/TechMaya/resources/images/products/${product.imageUrlFromPart}"/>
+                    	</div>
                     		<p class="product-title"> ${product.name}</p>
                     		<p class="product-description"> ${product.description}</p>
                     		<p class="product-description"> Price: ${product.price}</p>
@@ -197,7 +214,7 @@ a {
                     		<div style="display:flex;justify-content: space-evenly; height:40px; width:100%;">
                     			<form method="post" action="${pageContext.request.contextPath}/AdminModifyProductsServlet">
                     				<input type="hidden" name="updateId" value="${product.uid}" />
-									<button type="submit" style="width:50px; height:20px;"	>Update</button>
+									<button type="submit" 	>Update</button>
                     			</form>
                     			<form id="deleteForm-${product.name}" method="post" action="${pageContext.request.contextPath}/AdminModifyProductsServlet">
                     				<input type="hidden" name="deleteId" value="${product.uid}" /> <!-- Try formactoin -->
@@ -205,6 +222,8 @@ a {
                     			</form>
 							</div>             			
                     	</div>
+                    </div>
+                    </div>
                     </c:forEach>
                         
                 </div>
