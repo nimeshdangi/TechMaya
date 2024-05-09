@@ -16,7 +16,7 @@
             <div class="logo">TechMaya</div>
             <div class="navbar-links">
                 <a href="home.jsp">Home</a>
-                <a href="product.jsp">Product</a>
+                <a href="productdetails.jsp">Product</a>
                 <a href="aboutus.jsp">About Us</a>
                 <a href="contact.jsp">Contact</a>
             </div>

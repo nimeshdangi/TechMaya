@@ -44,7 +44,7 @@ public class AuthenticationFilter implements Filter{
 				// condition
 				//if (uri.endsWith(".css") || uri.endsWith(StringUtils.INDEX_PAGE)) {
 				if (uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".jpg") || uri.endsWith(".jpeg") || uri.endsWith(".jfif") ||
-				        uri.endsWith(".png") || uri.endsWith(".gif") || uri.endsWith(".webp") || uri.endsWith("/index.jsp") || uri.endsWith("/home.jsp")) {
+				        uri.endsWith(".png") || uri.endsWith(".gif") || uri.endsWith(".webp") || uri.endsWith("/index.jsp") || uri.endsWith("/home.jsp") || uri.endsWith("/productspecificdetails.jsp")) {
 					// it delegates control to the next filter in the chain, or if this filter is
 					// the last one in the chain, to the servlet that services the incoming request.
 					chain.doFilter(request, response);
