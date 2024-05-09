@@ -125,13 +125,10 @@ public class AuthenticationFilter implements Filter{
 						} else {
 							chain.doFilter(request, response);
 						}
-					} else if(session.getAttribute("role") == null) {
+					} else if(session.getAttribute("role") == "Admin") {
 						System.out.println("From role null");
 						if(isAdminPanel) {
-							res.sendRedirect(req.getContextPath() + "/pages/home.jsp");
-						} else {
 							chain.doFilter(request, response);
-							return;
 						}
 					} else {
 						if (isAdminPanel) {
