@@ -1,5 +1,6 @@
 package controller.servlets;
 
+import java.io.File;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,11 +43,6 @@ public class AdminModifyProductsServlet extends HttpServlet {
 
 		if (updateId != null && !updateId.isEmpty()) {
 			doPut(request, response);
-			/*
-			System.out.println("AdminModifyServlet ProductID : "+updateId);
-			request.setAttribute("productId", updateId);
-			request.getRequestDispatcher("/AdminUpdateProductServlet").forward(request, response);
-			*/
 		}
 		if (deleteId != null && !deleteId.isEmpty()) {
 			doDelete(request, response);
@@ -68,6 +64,9 @@ public class AdminModifyProductsServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("delete triggered");
 		if (dbController.deleteProductInfo(req.getParameter("deleteId")) == 1) {
+			String fullFilePath = StringUtils.IMAGE_DIR_SAVE_PATH + req.getParameter("deleteId")+".png";
+			File fullFile = new File(fullFilePath);
+			fullFile.delete(); //deletes the file
 			//req.setAttribute(StringUtils.MESSAGE_SUCCESS, StringUtils.MESSAGE_SUCCESS_DELETE);
 			resp.sendRedirect(req.getContextPath() + "/AdminProductsServlet");
 		} else {
