@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import model.CartProductModel;
 import model.OrderModel;
 import model.ProductModel;
 import model.PasswordEncryptionWithAes;
@@ -24,19 +25,27 @@ public class DatabaseController {
 		return DriverManager.getConnection(url, user, pass);
 	}
 	
+	/**
+	 * This method gets all products from the products table.
+	 * @return products - an arraylist of ProductModel
+	 */
 	public ArrayList<ProductModel> getAllProducts() {
 		try {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement("SELECT * FROM products");
+			
 			ResultSet result = stmt.executeQuery();
 			
 			ArrayList<ProductModel> products = new ArrayList<ProductModel>();
 			
 			while(result.next()) {
 				ProductModel product = new ProductModel();
-				product.setId(Integer.parseInt(result.getString("id")));
+				product.setUid(result.getString("id"));
 				product.setName(result.getString("name"));
+				product.setPrice(result.getDouble("price"));
 				product.setDescription(result.getString("description"));
+				product.setTag(result.getString("tag"));
+				product.setStock(result.getInt("stock"));				
 				product.setImageUrlFromPart(result.getString("image"));
 				products.add(product);
 			}
@@ -48,17 +57,65 @@ public class DatabaseController {
 		}
 	}
 	
+	/**
+	 * This method gets all list of products (list made based on tag) from the products table.
+	 * @return productsList - an arraylist of arraylist of  ProductModel
+	 */
+	public ArrayList<ArrayList<ProductModel>> getAllProductsList() {
+		try {
+			ArrayList<ArrayList<ProductModel>> productsList = new ArrayList<ArrayList<ProductModel>>();
+			for(String tag:StringUtils.PRODUCT_TAGS) { //gets a list of products with a specific tag, looping
+				PreparedStatement stmt = getConnection()
+						.prepareStatement("SELECT * FROM products WHERE tag=?");
+				stmt.setString(1, tag);
+				
+				ResultSet result = stmt.executeQuery();
+				
+				ArrayList<ProductModel> products = new ArrayList<ProductModel>();
+				
+				while(result.next()) {
+					ProductModel product = new ProductModel();
+					product.setUid(result.getString("id"));
+					product.setName(result.getString("name"));
+					product.setPrice(result.getDouble("price"));
+					product.setDescription(result.getString("description"));
+					product.setTag(result.getString("tag"));
+					product.setStock(result.getInt("stock"));				
+					product.setImageUrlFromPart(result.getString("image"));
+					products.add(product);
+				}
+				productsList.add(products);
+			}
+			return productsList;
+			
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * This method adds a product into the products table.
+	 * @param product - An instance of ProductModel class.
+	 * @return result - an integer specifying whether the insertion was successful or not.
+	 * 
+	 */
 	public int addProduct(ProductModel product) {
 		try(Connection con = getConnection()){
-			int id = this.getAllProducts().size()+1;
-			System.out.println("DB currently has "+String.valueOf(id)+ "items.");
-			PreparedStatement st = con.prepareStatement("INSERT INTO products VALUES (?,?,?,?)");
-			st.setString(1, String.valueOf(id));
+			int total = this.getAllProducts().size()+1;
+			System.out.println("DB currently has "+String.valueOf(total)+ "items.");
+			PreparedStatement st = con.prepareStatement("INSERT INTO products VALUES (?,?,?,?,?,?,?)");
+			st.setString(1, product.getUid());
 			st.setString(2, product.getName());
-			st.setString(3, product.getDescription());
-			String location = product.getImageUrlFromPart();
-			st.setString(4, location);
-			
+			st.setDouble(3, product.getPrice());
+			st.setString(4, product.getDescription());
+			st.setInt(5, product.getStock());
+			st.setString(6,product.getTag());
+			String img = product.getImageUrlFromPart();
+			st.setString(7, img);
+			System.out.println("tag is: "+product.getTag());
 			System.out.println("Saving to database...");
 			
 			int result = st.executeUpdate();
@@ -69,7 +126,12 @@ public class DatabaseController {
 			return -1;
 		}
 	}
-	
+	/**
+	 * This method gets a product from the product table.
+	 * @param id - A String representing a product id.
+	 * @return product - A product model of the specified product.
+	 * 
+	 */
 	public ProductModel getProduct(String id) {
 		try {
 		PreparedStatement stmt = getConnection()
@@ -78,15 +140,20 @@ public class DatabaseController {
 		ResultSet result = stmt.executeQuery();
 		if(result.next()) {
 			ProductModel product = new ProductModel();
-			product.setId(Integer.parseInt(result.getString("id")));
+			//product.setUid((result.getString("id")));
+			product.setUid(id);
 			product.setName(result.getString("name"));
 			product.setDescription(result.getString("description"));
+			product.setPrice(result.getDouble("price"));
+			product.setStock(result.getInt("stock"));
 			product.setImageUrlFromPart(result.getString("image"));
+			product.setTag(result.getString("tag"));
+			
 			return product;
 			
 		} else {
 			return null;
-		}
+			}
 		}
 		catch(SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
@@ -94,16 +161,63 @@ public class DatabaseController {
 		}
 	}
 	
+	/**
+	 * This method gets a list product from the product table based on tags, excluding the given uid.
+	 * @param tag - A String representing a product tag.
+	 * @param uid - A string representing a product id.
+	 * @return products - A list of product model.
+	 * 
+	 */
+	public ArrayList<ProductModel> getProductByTagExcludingId(String tag, String uid) {
+		try {
+		PreparedStatement stmt = getConnection()
+				.prepareStatement("SELECT * FROM products WHERE tag=? AND NOT id=?");
+		stmt.setString(1, tag);
+		stmt.setString(2, uid);
+		ResultSet result = stmt.executeQuery();
+		
+		ArrayList<ProductModel> products = new ArrayList<ProductModel>();
+		
+		while(result.next()) {
+			ProductModel product = new ProductModel();
+			product.setUid(result.getString("id"));
+			product.setName(result.getString("name"));
+			product.setPrice(result.getDouble("price"));
+			product.setDescription(result.getString("description"));
+			product.setTag(result.getString("tag"));
+			product.setStock(result.getInt("stock"));				
+			product.setImageUrlFromPart(result.getString("image"));
+			products.add(product);
+		}
+		return products;
+			
+		}
+		catch(SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * This method updates a product in the products table.
+	 * @param product - An instance of ProductModel class.
+	 * @return result - an integer specifying whether the insertion was successful or not.
+	 * 
+	 */
 	public int updateProduct(ProductModel product) {
 		try {
 			//IGNORING IMAGE FOR NOW
-			PreparedStatement stmt = getConnection()
-					.prepareStatement("UPDATE products SET name=?, description=? WHERE id=?");
-			stmt.setString(1, product.getName());
-			stmt.setString(2, product.getDescription());
-			stmt.setString(3,String.valueOf(product.getId()));
+			PreparedStatement st = getConnection()
+					.prepareStatement("UPDATE products SET name=?, description=?, price=?,stock=?,tag=? WHERE id=?");
+			st.setString(1, product.getName());
+			st.setString(2, product.getDescription());
+			st.setDouble(3, product.getPrice());
+			st.setInt(4, product.getStock());
+			st.setString(5,product.getTag()); //no need to update img as uid does not change
+			st.setString(6,product.getUid());
 			
-			int result = stmt.executeUpdate();
+			int result = st.executeUpdate();
 			return result > 0 ? 1 : 0;
 			}
 			catch(SQLException | ClassNotFoundException ex) {
@@ -111,7 +225,11 @@ public class DatabaseController {
 				return -1;
 			}
 	}
-	
+	/**
+	 * This method gets all orders in the orders table.
+	 * @return orders - an arraylist of OrderModel instances.
+	 * 
+	 */
 	public ArrayList<OrderModel> getAllOrders() {
 		try {
 			PreparedStatement stmt = getConnection()
@@ -184,7 +302,7 @@ public class DatabaseController {
 			
 			PreparedStatement st = con.prepareStatement(StringUtils.INSERT_CUSTOMER);
 			
-			st.setString(1, userModel.getUserID());
+			st.setString(1, userModel.getUid());
 			st.setString(2, userModel.getFirstName());
 			st.setString(3, userModel.getLastName());
 			st.setString(4, userModel.getEmail());
@@ -261,6 +379,121 @@ public class DatabaseController {
 		}
 	}
 	
+	//Cart Functionalities
+	public int AddProductToCart(String userId, String productId, int quantity) {
+		try(Connection con = getConnection()){
+
+			if (this.productExistsInCart(userId, productId)) {
+				System.out.println("Item already exists in cart!!!");
+				System.out.println("Incrementing the quantity!!!"); //need to check max quantity in stock
+				int cartQuantity = this.getQuantityinCart(userId, productId);
+				if (cartQuantity==0) {
+					//if an error occured;
+					return 0;
+				}
+				this.UpdateProductInCart(userId, productId, cartQuantity+quantity); //quantity is 1 in products page
+				return 1;
+			}
+			
+			PreparedStatement st = con.prepareStatement("INSERT INTO cart VALUES (?,?,?)");
+			st.setString(1, userId);
+			st.setString(2, productId);
+			st.setInt(3, quantity);
+			int result = st.executeUpdate();
+			return result > 0 ? 1 : 0;
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+		
+	}
 	
+	public int UpdateProductInCart(String userId, String productId, int quantity) {
+		try(Connection con = getConnection()){
+			
+			PreparedStatement st = con.prepareStatement("UPDATE cart SET quantity=? WHERE customer_id = ? AND product_id = ?");
+			st.setInt(1, quantity);
+			st.setString(2, userId);
+			st.setString(3, productId);
+			int result = st.executeUpdate();
+			return result > 0 ? 1 : 0;
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+		
+	}
+	
+	public boolean productExistsInCart(String userId, String productId) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("SELECT COUNT(*) FROM cart WHERE customer_id = ? AND product_id = ?");
+			st.setString(1, userId);
+			st.setString(2, productId);
+
+			ResultSet result = st.executeQuery();
+			result.next();
+			if(result.getInt(1)>0) {
+				return true; //product exists
+			} else {
+				return false;
+			}
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+	
+	private int getQuantityinCart(String userId, String productId) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("SELECT quantity FROM cart WHERE customer_id = ? AND product_id = ?");
+			st.setString(1, userId);
+			st.setString(2, productId);
+
+			ResultSet result = st.executeQuery();
+			if(result.next()) {
+				return result.getInt("quantity");
+			} else {
+				return 0;
+			}
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public ArrayList<CartProductModel> getCartProducts(String userId) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement(
+					"SELECT products.id uid, products.name productName, products.stock productStock, products.price productPrice, cart.quantity productQuantity "
+					+ "FROM products, cart "
+					+ "WHERE customer_id=?"
+					+ "AND products.id=cart.product_id"
+					);
+			st.setString(1, userId);
+			ArrayList<CartProductModel> cartProducts = new ArrayList<CartProductModel>();
+			
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				CartProductModel cartProduct = new CartProductModel();
+				cartProduct.setUid(rs.getString("uid"));
+				cartProduct.setName(rs.getString("productName"));
+				cartProduct.setStock(rs.getInt("productStock"));
+				cartProduct.setPrice(rs.getDouble("productPrice"));
+				cartProduct.setQuantity(rs.getInt("productQuantity"));
+				cartProducts.add(cartProduct);
+				
+				System.out.println(cartProduct.getUid());
+			}
+			return cartProducts;
+		}
+		catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
 	
 }

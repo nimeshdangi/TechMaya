@@ -1,8 +1,11 @@
 package controller.servlets;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -53,17 +56,25 @@ public class AdminProductsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("add-product-name");
 		String description = request.getParameter("add-product-description");
+		Double price = Double.parseDouble(request.getParameter("add-product-price"));
+		int stock = Integer.parseInt(request.getParameter("add-product-stock"));
+		String tag = request.getParameter("add-product-tag");
 		Part imagePart = request.getPart("add-product-image");
 		
-		ProductModel product = new ProductModel(imagePart); //doing this since ID is added inside DatabaseController
+		ProductModel product = new ProductModel(imagePart);
 		product.setName(name);
 		product.setDescription(description);
+		product.setStock(stock);
+		product.setPrice(price);
+		product.setTag(tag);
+		product.setUid(product.getRandomUid());
 		
 		String savePath = StringUtils.IMAGE_DIR_SAVE_PATH;
 	    String fileName = product.getImageUrlFromPart();
-	    if(!fileName.isEmpty() && fileName != null)
-    		imagePart.write(savePath + fileName);
-	    	System.out.println("Saving...");
+	    if(!fileName.isEmpty() && fileName != null) {
+	    	product.saveImg(savePath, fileName, imagePart);
+	    }
+	    //get image and convert to uid+png
 		int result = databaseController.addProduct(product);
 		//check here
 		

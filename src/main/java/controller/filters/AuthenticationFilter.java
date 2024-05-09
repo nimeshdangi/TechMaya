@@ -95,6 +95,7 @@ public class AuthenticationFilter implements Filter{
 						res.sendRedirect(req.getContextPath() + StringUtils.LOGIN_PAGE);
 					} else {
 						chain.doFilter(request, response);
+						return;
 					}
 				}
 				else if(isLoggedIn && !(!isRegister || isRegisterServlet)) {
@@ -118,14 +119,7 @@ public class AuthenticationFilter implements Filter{
 				}
 				else if (isLoggedIn) {
 					System.out.println(session.getAttribute("role"));
-					if(session.getAttribute("role") == "Admin") {
-						if(isWelcome) {
-							res.sendRedirect(req.getContextPath() + "/pages/adminpanel.jsp");
-						} else {
-							chain.doFilter(request, response);
-						}
-					} else if(session.getAttribute("role") == null) {
-						System.out.println("From role null");
+					if(session.getAttribute("role") == null) {
 						if(isAdminPanel) {
 							res.sendRedirect(req.getContextPath() + "/pages/home.jsp");
 						} else {
@@ -137,12 +131,28 @@ public class AuthenticationFilter implements Filter{
 						}else {
 							chain.doFilter(request, response);
 						}
+					} else if(session.getAttribute("role") == null) {
+						System.out.println("From role null");
+						if(isAdminPanel) {
+							res.sendRedirect(req.getContextPath() + "/pages/home.jsp");
+						} else {
+							chain.doFilter(request, response);
+							return;
+						}
+					} else {
+						if (isAdminPanel) {
+							res.sendRedirect(req.getContextPath() + "/pages/home.jsp");
+						}else {
+							chain.doFilter(request, response);
+							return;
+						}
 					}
 				}
 //				 If none of the above conditions are met, allow the request to continue down
 //				 the filter chain.
 				else {
 					chain.doFilter(request, response);
+					return;
 				}
 		
 	}

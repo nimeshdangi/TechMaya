@@ -55,34 +55,11 @@
                     <input type="text" id="search" onkeyup="search()" placeholder="search...">
                     <img src="/TechMaya/resources/images/icons/search.svg"/>
                 </div>
-                <!-- Popup-->
-                <form action="/TechMaya/AdminProductsServlet" method="post" enctype="multipart/form-data" id="popup-product" class="overlay-container column-flex">
-                    <div>
-                        <label>Name: </label>
-                        <input type="text" id="add-product-name" name="add-product-name"/>
-                        <br>
-                    </div>
-                    
-                    <div>
-                        <label>Description: </label>
-                        <input type="text" id="add-product-description" name="add-product-description"/>
-                        <br>
-                    </div>
-                    <div>
-                        <label>Image: </label>
-                        <input type="file" id="add-product-image" name="add-product-image" accept="image/*"/>
-                        <br>
-                    </div>
-                    <div>
-                        <button>Add</button>
-
-                        <button onclick="showPopup()" type="button">Close</button> <!-- Also causes post. Fixed by adding type="button" -->
-                    </div>
-                </form>
+                
                 <!-- Products-->
                 <div id="admin-products" class="remove-scrollbar">
                     <div style="display: flex;justify-content: center;align-items: center;">
-                        <button onclick="showPopup()">Add</button>
+                        <button type="button"><a href="pages/adminproductadd.jsp">Add</a></button>
                     </div>
                     
                     <c:forEach var="product" items="${productsList}">
@@ -90,13 +67,16 @@
                     		<img src="/TechMaya/resources/images/products/${product.imageUrlFromPart}"/>
                     		<p class="product-title"> ${product.name}</p>
                     		<p class="product-description"> ${product.description}</p>
+                    		<p class="product-description"> Price: ${product.price}</p>
+                    		<p class="product-description"> Stock: ${product.stock}</p>
+                    		<p class="product-description"> Tag: ${product.tag}</p>
                     		<div style="display:flex;justify-content: space-evenly; height:40px; width:100%;">
                     			<form method="post" action="${pageContext.request.contextPath}/AdminModifyProductsServlet">
-                    				<input type="hidden" name="updateId" value="${product.id}" />
+                    				<input type="hidden" name="updateId" value="${product.uid}" />
 									<button type="submit" style="width:50px; height:20px;"	>Update</button>
                     			</form>
                     			<form id="deleteForm-${product.name}" method="post" action="${pageContext.request.contextPath}/AdminModifyProductsServlet">
-                    				<input type="hidden" name="deleteId" value="${product.id}" /> <!-- Try formactoin -->
+                    				<input type="hidden" name="deleteId" value="${product.uid}" /> <!-- Try formactoin -->
 									<button type="button" onclick="confirmDelete('${product.name}')">Delete</button>
                     			</form>
 							</div>             			
@@ -124,11 +104,6 @@
                 list[i].setAttribute("style","display:none");
             }
         }
-    }
-
-    function showPopup(){
-        const overlay = document.getElementById('popup-product'); 
-        overlay.classList.toggle('show'); 
     }
     
     function confirmDelete(name){
