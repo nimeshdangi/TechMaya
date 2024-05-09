@@ -6,24 +6,148 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Admin Products Panel</title>
-<link rel="stylesheet" href="/TechMaya/stylesheets/admin.css">
+<link rel="stylesheet" href="/TechMaya/stylesheets">
 	<style>
-        .overlay-container{
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0, 0, 0, 0.6); 
-            justify-content: center; 
-            align-items: center; 
-            opacity: 0; 
-        }
-        .overlay-container.show { 
-            display: flex; 
-            opacity: 1; 
-    	} 
+ 		/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Container Styles */
+#container {
+    display: flex;
+    height: 100vh;
+    
+}
+
+/* Navigation Styles */
+#navigation {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav:hover {
+    background-color: #444;
+}
+
+.nav img {
+    margin-right: 15px;
+    width: 25px;
+    height: 25px;
+}
+
+/* Main Content Styles */
+#main {
+    flex-grow: 1;
+    padding: 30px;
+}
+
+/* Search Bar Styles */
+#search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 5px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+#search-bar input[type="text"] {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    font-size: 16px;
+    padding: 5px;
+}
+
+#search-bar img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Products Styles */
+#admin-products {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.admin-product {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.admin-product img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.product-description {
+    margin: 5px 0;
+    color: #666;
+}
+
+/* Button Styles */
+button {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #444;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Utility Classes */
+.column-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.remove-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.remove-scrollbar::-webkit-scrollbar {
+    display: none;
+}
     	
     </style>
 </head>

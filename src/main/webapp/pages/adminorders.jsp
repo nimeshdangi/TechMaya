@@ -7,21 +7,135 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Admin Order Panel</title>
-<link rel="stylesheet" href="/TechMaya/stylesheets/admin.css">
+
 <style>
-	table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
 }
-	
-	th, td {
-		padding:10px;
-	}
-	
-	table{
-		height:200px;
-		width:1000px;
-	}
+
+/* Container Styles */
+#container {
+    display: flex;
+    height: 100vh;
+    
+}
+/* Navigation Styles */
+#navigation {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav:hover {
+    background-color: #444;
+}
+
+.nav img {
+    margin-right: 15px;
+    width: 25px;
+    height: 25px;
+}
+
+/* Main Content Styles */
+#main {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+/* Search Bar Styles */
+#search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 5px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+#search-bar input[type="text"] {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    font-size: 16px;
+    padding: 5px;
+}
+
+#search-bar img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Table Styles */
+#admin-orders {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Form Styles */
+form {
+    align-items: center;
+}
+
+select, button {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Utility Classes */
+.column-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.remove-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.remove-scrollbar::-webkit-scrollbar {
+    display: none;
+}
 </style>
 </head>
 	<body>
