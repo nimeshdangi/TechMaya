@@ -47,7 +47,7 @@ public class UserModel implements Serializable{
 	public String getUid() {
 		return uid;
 	}
-	public void setUserID(String uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
 	public String getFirstName() {
