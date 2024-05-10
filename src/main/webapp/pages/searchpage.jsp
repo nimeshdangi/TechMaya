@@ -136,9 +136,19 @@ body {
             </div>
         </div>
         <div class="main-content">
-            <form class="search-bar" method="post" action="/TechMaya/SearchServlet">
+            <form method="post" action="/TechMaya/SearchServlet">
+            <div class="search-bar">
                 <input type="text" name="searchQuery" placeholder="Search">
-                <span class="search-icon">&#128269;</span>
+                <button><span class="search-icon">&#128269;</span></button>
+            </div>
+            <div>
+            	<div class="price-range">
+            		<label>Min:</label><input type = "number" name="minPrice" min = "0" value = "0"/>
+            	</div>
+            	<div class="price-range">
+            		<label>Max:</label><input type = "number" name="maxPrice" min = "0" value = "999999"/>
+            	</div>
+            </div>
             </form>
             <div class="search-message">
                 <p>Search to get started</p>

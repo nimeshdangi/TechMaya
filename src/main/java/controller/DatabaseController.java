@@ -669,11 +669,13 @@ public class DatabaseController {
 			}
 	}
 	
-	public ArrayList<ProductModel> getFilteredProducts(String name){
+	public ArrayList<ProductModel> getFilteredProducts(String name, int minPrice, int MaxPrice){
 		try {
 			PreparedStatement stmt = getConnection()
-					.prepareStatement("SELECT * FROM products WHERE LOWER(name) LIKE LOWER(?)");
+					.prepareStatement("SELECT * FROM products WHERE LOWER(name) LIKE LOWER(?) AND price > ? AND price < ?");
 			stmt.setString(1, "%" + name.toLowerCase() + "%");
+			stmt.setInt(2, minPrice);
+			stmt.setInt(3, MaxPrice);
 			ResultSet result = stmt.executeQuery();
 			
 			ArrayList<ProductModel> products = new ArrayList<ProductModel>();

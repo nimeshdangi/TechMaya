@@ -40,7 +40,9 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("searchQuery");
-		ArrayList<ProductModel> products = databaseController.getFilteredProducts(name);
+		int minPrice = Integer.parseInt(request.getParameter("minPrice"));
+		int maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
+		ArrayList<ProductModel> products = databaseController.getFilteredProducts(name, minPrice, maxPrice);
 		request.setAttribute("products", products);
 		for(ProductModel product: products) {
 			System.out.println(product.getName());
