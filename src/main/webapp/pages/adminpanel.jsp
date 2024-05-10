@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+ <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
@@ -43,6 +43,28 @@ header, footer {
   padding: 20px;
   text-align: center;
 }
+.content {
+    padding: 100px;
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-summary {
+    background-color: #f2f2f2;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.summary-item {
+    text-align: center;
+}
+
+.summary-label {
+    font-weight: bold;
+}
 
 /* Container Styles */
 #container {
@@ -77,6 +99,9 @@ header, footer {
 }
 
 /* Main Content Styles */
+
+
+
 #main {
   flex-grow: 1;
   padding: 20px;
@@ -128,11 +153,10 @@ header, footer {
     margin-bottom: 20px;
   }
   
-  a:hover, a:visited, a:link, a:active
+    a:hover, a:visited, a:link, a:active
 {
     text-decoration: none;
 }
-  
   
   
 	</style>
@@ -159,41 +183,45 @@ header, footer {
 			</div>
             
 	
-			<div id="main">
-				<div id="order-section" class="column-flex">
-					<div id="today-orders" class="column-flex">
-						<div>
-							
-						</div>
-						<div>
-							
-						</div>
-						<div>
-	
-						</div>
-					</div>
-
-					<div id="monthly-orders">
-	
-					</div>
-				</div>
-				
-				<div id="content-section" class="column-flex">
-					<div id="visit-revenue" style="display: flex;">
-						<div id="site-visits" class="column-flex">
-	
-						</div>
-						<div id="revenue">
-			
-						</div>
-						
-					</div>
-					
-					<div id="ratings">
-
-					</div>
-				</div>
-			</div>
+	<div class="content">
+        <div class="order-summary">
+            <div class="summary-item">
+                <div class="summary-label">Total Orders:</div>
+                <div class="summary-value">${monthlyOrders.totalOrders}</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Completed Orders:</div>
+                <div class="summary-value">${monthlyOrders.completedOrders}</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Failed Orders:</div>
+                <div class="summary-value">${monthlyOrders.failedOrders}</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Pending Orders:</div>
+                <div class="summary-value">${monthlyOrders.pendingOrders}</div>
+            </div>
+        </div>
+        <div class="order-summary">
+            
+            <div class="summary-item">
+                <div class="summary-label">Most item sold:</div>
+                <div class="summary-value">Nrs ${mostSoldItem.sum}</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Item name:</div>
+                <div class="summary-value">${mostSoldItem.name}</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Highest revenue:</div>
+                <div class="summary-value">Nrs ${highestRevenue }</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Revenue:</div>
+                <div class="summary-value">Nrs ${revenue }</div>
+            </div>
+        </div>
+    </div>
 		</div>
 		
 

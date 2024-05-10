@@ -7,13 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.DatabaseController;
+
 /**
  * Servlet implementation class AdminDashboardServlet
  */
 @WebServlet(asyncSupported = true, urlPatterns = { "/AdminDashboardServlet" })
 public class AdminDashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	DatabaseController databaseController = new DatabaseController();  
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -26,13 +28,13 @@ public class AdminDashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.sendRedirect(request.getContextPath() + "/pages/adminpanel.jsp");
+		request.setAttribute("mostSoldItem", databaseController.mostSoldItem());
+		request.setAttribute("highestRevenue", databaseController.highestSale());
+		request.setAttribute("revenue", databaseController.totalSale());
+		request.setAttribute("monthlyOrders", databaseController.monthlyOrders());
+		request.getRequestDispatcher("/pages/adminpanel.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import model.CartProductModel;
 import model.CustomerOrderModel;
+import model.MonthlyOrdersModel;
+import model.MostSoldItemModel;
 import model.OrderModel;
 import model.OrderProductModel;
 import model.ProductModel;
@@ -730,5 +732,81 @@ public class DatabaseController {
 				return -1;
 			}
 	}
+	
+	//Admin Dashboard
+	public double highestSale() {
+		try {
+			PreparedStatement st = getConnection()
+					.prepareStatement("SELECT grand_total FROM `orders` where MONTH(date)=MONTH(now()) GROUP BY grand_total desc LIMIT 1");
+			ResultSet result = st.executeQuery();
+			if (result.next()) {
+				return result.getDouble("grand_total");
+			} else {
+				return 0;
+			}
+			}
+			catch(SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				return -1;
+			}
+	}
+	
+	public double totalSale() {
+		try {
+			PreparedStatement st = getConnection()
+					.prepareStatement("SELECT SUM(grand_total) sum FROM `orders` where MONTH(date)=MONTH(now())");
+			ResultSet result = st.executeQuery();
+			if (result.next()) {
+				return result.getDouble("sum");
+			} else {
+				return 0;
+			}
+			}
+			catch(SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				return -1;
+			}
+	}
+	
+	public MostSoldItemModel mostSoldItem() {
+		try {
+			PreparedStatement st = getConnection()
+					.prepareStatement("SELECT p.name name, SUM(od.quantity) sum FROM order_details od, orders o, products p where MONTH(o.date)=MONTH(now()) AND o.id=od.order_id AND p.id = od.product_id GROUP BY od.product_id ASC LIMIT 1");
+			ResultSet result = st.executeQuery();
+			if (result.next()) {
+				return new MostSoldItemModel(result.getInt("sum"), result.getString("name"));
+			} else {
+				return new MostSoldItemModel(0,"");
+			}
+			}
+			catch(SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				return new MostSoldItemModel(0,"");
+			}
+	}
+	
+	public MonthlyOrdersModel monthlyOrders() {
+		try {
+			PreparedStatement st = getConnection()
+					.prepareStatement("SELECT COUNT(*) total, (SELECT COUNT(*) FROM orders WHERE orders.status='Completed') completed, (SELECT COUNT(*) FROM orders WHERE orders.status='Failed') failed,(SELECT COUNT(*) FROM orders WHERE orders.status='Pending') pending FROM orders");
+			ResultSet result = st.executeQuery();
+			if (result.next()) {
+				int total = result.getInt("total");
+				int completed = result.getInt("completed");
+				int failed = result.getInt("failed");
+				int pending = result.getInt("pending");
+				
+				return new MonthlyOrdersModel(total,completed,failed,pending);
+			} else {
+				return new MonthlyOrdersModel(0,0,0,0);
+			}
+			}
+			catch(SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				return new MonthlyOrdersModel(0,0,0,0);
+			}
+	}
+	
+	
 	
 }
