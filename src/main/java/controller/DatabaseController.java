@@ -807,6 +807,18 @@ public class DatabaseController {
 			}
 	}
 	
+	public int addReview(String name, String email, String message) {
+		try(Connection con = getConnection()){
+			PreparedStatement st = con.prepareStatement("INSERT INTO reviews VALUES (?,?,?)");
+			st.setString(1, name);
+			st.setString(2, email);
+			st.setString(3,message);
+			int result = st.executeUpdate();
+			return result > 0 ? 1 : 0;
+		}catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
 	
-	
+	}
 }

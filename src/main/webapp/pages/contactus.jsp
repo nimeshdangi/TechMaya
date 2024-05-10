@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,8 +88,10 @@ button:hover {
 </style>
 
 <body>
-
+<jsp:include page="header.jsp" />
+	<jsp:include page="searchbar.jsp" />
     <main>
+    
         <section class="contact-hero">
             <div class="contact-content">
                 <h1>Get in Touch</h1>
@@ -98,7 +102,7 @@ button:hover {
         <section class="contact-form">
             <div class="form-container">
                 <h2>Contact Us</h2>
-                <form action="#" method="post">
+                <form action="/TechMaya/ContactUsServlet" method="post">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" required>
@@ -116,7 +120,5 @@ button:hover {
             </div>
         </section>
     </main>
-
-    
 </body>
 </html>

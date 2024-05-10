@@ -17,8 +17,8 @@
             <div class="navbar-links">
                 <a href="/TechMaya/HomeServlet">Home</a>
                 <a href="/TechMaya/ProductsServlet">Product</a>
-                <a href="aboutus.jsp">About Us</a>
-                <a href="contact.jsp">Contact</a>
+                <a href="/TechMaya/pages/aboutus.jsp">About Us</a>
+                <a href="/TechMaya/pages/contactus.jsp">Contact</a>
             </div>
             <div style="display:flex; gap:50px;">
             	<%
