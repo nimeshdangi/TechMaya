@@ -16,6 +16,9 @@
 <link rel="stylesheet" type="text/css" href="/TechMaya/stylesheets/productdetail.css"/>
 </head>
 <body>
+	<jsp:include page="header.jsp" />
+	<jsp:include page="searchbar.jsp" />
+	
 	<div class = "card-wrapper">
   <div class = "card">
     <!-- card left -->
@@ -83,5 +86,6 @@
   </div>
 </div>
 </div>	
+<jsp:include page="footer.jsp" />
 </body>
 </html>

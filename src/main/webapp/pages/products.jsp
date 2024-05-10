@@ -18,6 +18,7 @@
 </head>
 <body>
 	<jsp:include page="header.jsp" />
+	<jsp:include page="searchbar.jsp" />
 	<!-- Logic: 
 		Outer loop loops a arraylist of arraylist. first item in inner arraylist is used to get title(tag).
 	 -->
