@@ -15,10 +15,12 @@ import model.MonthlyOrdersModel;
 import model.MostSoldItemModel;
 import model.OrderModel;
 import model.OrderProductModel;
-import model.ProductModel;
 import model.PasswordEncryptionWithAes;
+import model.ProductModel;
 import model.UserModel;
 import utils.StringUtils;
+
+
 
 public class DatabaseController {
 	public Connection getConnection() throws SQLException, ClassNotFoundException{
@@ -788,7 +790,7 @@ public class DatabaseController {
 	public MonthlyOrdersModel monthlyOrders() {
 		try {
 			PreparedStatement st = getConnection()
-					.prepareStatement("SELECT COUNT(*) total, (SELECT COUNT(*) FROM orders WHERE orders.status='Completed') completed, (SELECT COUNT(*) FROM orders WHERE orders.status='Failed') failed,(SELECT COUNT(*) FROM orders WHERE orders.status='Pending') pending FROM orders");
+					.prepareStatement("SELECT COUNT(*) total, (SELECT COUNT(*) FROM orders WHERE orders.status='Delivered') completed, (SELECT COUNT(*) FROM orders WHERE orders.status='Failed') failed,(SELECT COUNT(*) FROM orders WHERE orders.status='Pending') pending FROM orders");
 			ResultSet result = st.executeQuery();
 			if (result.next()) {
 				int total = result.getInt("total");

@@ -81,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 			//String successRegisterMessage = "Successfully Registered!";
 			//request.setAttribute("firstName", successRegisterMessage);
 			request.setAttribute(StringUtils.SUCCESS_MESSAGE, StringUtils.SUCCESS_LOGIN_MESSAGE);
-			response.sendRedirect(request.getContextPath() + "/pages/adminpanel.jsp");
+			response.sendRedirect(request.getContextPath() + "/AdminDashboardServlet");
 		} else if (loginResult ==-3) {
 			//Redirect to the same register page with form data mistake
 			String errorMessage = "User does not exist.";
