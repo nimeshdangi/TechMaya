@@ -32,6 +32,10 @@
                             <a href="/TechMaya/ProfileServlet" class="login-btn">
                                 My Profile
                             </a>
+                            
+                            <a href="/TechMaya/AddToCartServlet" class="login-btn">
+                            	Cart
+                            </a>
                             <a href="/TechMaya/LogoutServlet" class="login-btn">
                                 Logout
                             </a>

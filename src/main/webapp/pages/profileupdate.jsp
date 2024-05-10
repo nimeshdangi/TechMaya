@@ -103,13 +103,13 @@ button[type="submit"]:hover {
         <label for="profilePhoto">Profile Photo:</label>
         <div class="photo-container">
           <img src="/TechMaya/resources/images/users/${user.uid}.png" alt="Profile Photo" id="profilePhoto">
-          <label for="photoUpload" class="photo-upload">
+          <label class="photo-upload">
             <i class="fa fa-camera"></i> Upload Photo
           </label>
-          <input type="file" id="photoUpload" name="photoUpload" accept="image/png, image/jpeg, image/gif">
+          <input type="file" id="photoUpload" name="photoUpload" accept="image/*"/>
         </div>
       </div>
-      <button type="submit">Save Changes</button>
+      <button>Save Changes</button>
     </form>
   </div>
 </body>

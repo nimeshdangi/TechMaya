@@ -20,7 +20,7 @@
   <div class="user-info">
     <div class="profile-picture">
       <!-- Replace 'profile.jpg' with the path to your profile image -->
-      <img src="profile.jpg" alt="Profile Picture">
+      <img src="/TechMaya/resources/images/users/${user.uid}.png" alt="Profile Picture">
     </div>
     <h2>User Information</h2>
     <p><strong>First Name:</strong> ${user.firstName}</p>

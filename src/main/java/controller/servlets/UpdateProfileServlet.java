@@ -61,14 +61,14 @@ public class UpdateProfileServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String address = request.getParameter("address");
 		Part imagePart = request.getPart("photoUpload");
-		
+				
 		UserModel user = null;
 		if (!(imagePart==null)) {//if image has been uploaded
 			user = new UserModel(imagePart);
-		}{
+		}else{
 			user = new UserModel();
 		}
-		
+				
 		user.setUid(userId);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);

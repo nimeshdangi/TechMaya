@@ -150,6 +150,7 @@ public class UserModel implements Serializable{
 		if (imageUrlFromPart == null || imageUrlFromPart.isEmpty()) {
 			imageUrlFromPart = "download.jpg";
 		}
+		
 		return imageUrlFromPart;
 	}
 	

@@ -65,7 +65,7 @@ public class LoginServlet extends HttpServlet {
 			//String successRegisterMessage = "Successfully Registered!";
 			//request.setAttribute("firstName", successRegisterMessage);
 			request.setAttribute(StringUtils.SUCCESS_MESSAGE, StringUtils.SUCCESS_LOGIN_MESSAGE);
-			response.sendRedirect(request.getContextPath() + StringUtils.WELCOME_PAGE);
+			response.sendRedirect(request.getContextPath() + "/HomeServlet");
 		} else if (loginResult == 2) {
 			//Successfully login
 			UserModel user = dbController.getUidAndName(email);

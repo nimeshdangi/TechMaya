@@ -128,6 +128,11 @@ header, footer {
     margin-bottom: 20px;
   }
   
+  a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+}
+  
   
   
 	</style>
@@ -140,19 +145,15 @@ header, footer {
 			<div id="navigation" class="column-flex">
 				<div id="dashboard" class="nav">
 					<img>
-					Dashboard
+					<a href="/TechMaya/AdminDashboardServlet">Dashboard</a>
 				</div>
 				<div id="products" class="nav">
 					<img>
-					Products
+					<a href="/TechMaya/AdminProductsServlet">Products</a>
 				</div>
 				<div id="orders" class="nav">
 					<img>
-					Orders
-				</div>
-				<div id="feedback" class="nav">
-					<img>
-					Feedback
+					<a href="/TechMaya/AdminOrdersServlet">Orders</a>
 				</div>
 				<a href="/TechMaya/LogoutServlet" class="logout-btn">Logout</a>
 			</div>

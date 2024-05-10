@@ -175,6 +175,11 @@ a {
     justify-content: space-between;
 }
 
+a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+}
+
 
     	
 </style>
@@ -184,21 +189,17 @@ a {
 			<div id="navigation" class="column-flex">
 				<div id="dashboard" class="nav">
 					<img>
-					Dashboard
+					<a href="/TechMaya/AdminDashboardServlet">Dashboard</a>
 				</div>
 				<div id="products" class="nav">
 					<img>
-					Products
+					<a href="/TechMaya/AdminProductsServlet">Products</a>
 				</div>
 				<div id="orders" class="nav">
 					<img>
-					Orders
+					<a href="/TechMaya/AdminOrdersServlet">Orders</a>
 				</div>
-				<div id="feedback" class="nav">
-					<img>
-					Feedback
-				</div>
-				<a href="#" class="logout-btn">Logout</a>
+				<a href="/TechMaya/LogoutServlet" class="logout-btn">Logout</a>
 			</div>
             
 	

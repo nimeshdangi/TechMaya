@@ -66,7 +66,7 @@ a:visited, a:hover, a:focus, a:active { text-decoration: none; color:black; }
 
 </head>
 <body>
-
+<jsp:include page="header.jsp" />
 <div class="shopping-cart">
   <h2 class="title">SHOPPING CART</h2>
   <table class="cart-items">
@@ -111,7 +111,7 @@ a:visited, a:hover, a:focus, a:active { text-decoration: none; color:black; }
     <button class="checkout-btn">Proceed to Checkout</button>
   </form>
 </div>
-
+<jsp:include page="footer.jsp" />
 </body>
 
 
