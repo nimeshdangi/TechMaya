@@ -98,8 +98,7 @@
                         <th>Image</th>
                         <th>Quantity</th>
                         <th>Total</th>
-                        <th>Ratings</th>
-                        <th>Update</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -109,8 +108,7 @@
                         <td><img src="/TechMaya/resources/images/products/${orderProduct.uid}.png"/></td>
                         <td>${orderProduct.quantity}</td>
                         <td>${orderProduct.total}</td>
-                        <td>5</td>
-                        <td><button type="button">Update</button></td>
+
                     </tr>
                 </c:forEach>
                 <tr>
