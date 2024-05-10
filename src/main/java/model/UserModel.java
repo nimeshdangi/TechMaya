@@ -1,10 +1,17 @@
 package model;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+
+import utils.StringUtils;
 
 /**
  * This is a model class for a user.
@@ -24,6 +31,9 @@ public class UserModel implements Serializable{
 		
 	}
 	
+	public UserModel(Part imagePart) {
+		this.imageUrlFromPart = this.getImageUrl(imagePart);
+	}
 	
 	
 	public UserModel(String firstName, String lastName, String email, String phoneNumber, String address,
@@ -122,6 +132,40 @@ public class UserModel implements Serializable{
 
 	public void setImageUrlFromPart(String imageUrlFromPart) {
 		this.imageUrlFromPart = imageUrlFromPart;
+	}
+	
+	private String getImageUrl(Part part) {
+		File fileSaveDir = new File(StringUtils.IMAGE_DIR_SAVE_PATH_CUSTOMER);
+		String imageUrlFromPart = null;
+		if (!fileSaveDir.exists()) {
+			fileSaveDir.mkdirs();
+		}
+		String contentDisp = part.getHeader("content-disposition");
+		String[] items = contentDisp.split(";");
+		for (String s : items) {
+			if (s.trim().startsWith("filename")) {
+				imageUrlFromPart = s.substring(s.indexOf("=") + 2, s.length() - 1);
+			}
+		}
+		if (imageUrlFromPart == null || imageUrlFromPart.isEmpty()) {
+			imageUrlFromPart = "download.jpg";
+		}
+		return imageUrlFromPart;
+	}
+	
+	public void saveImg(String savePath, String fileName, Part imagePart)  throws ServletException, IOException {
+		String fullFilePath = savePath + fileName;
+		imagePart.write(fullFilePath); //writes original file to disk
+		System.out.println("Saving...");
+		File fullFile = new File(fullFilePath);
+    	BufferedImage userImage = ImageIO.read(fullFile); //reads original file as buffered image. cannot read webp
+    	File pngImage = new File(savePath+this.getUid()+".png"); //creates an empty file as png
+    	if(userImage==null) {return;} //return if imagePart was empty ->productImage
+    	ImageIO.write(userImage, "png", pngImage); //transcodes the file as png
+    	System.out.println("Saving to png");
+    	fullFile.delete(); //deletes the original file
+    	System.out.println("Deleting original img.");
+    	this.setImageUrlFromPart(this.getUid()+".png"); //setting for database
 	}
 }
 

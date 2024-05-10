@@ -60,8 +60,10 @@ public class StringUtils {
 	public static final String LOGOUT = "Logout";
 
 	public static final String IMAGE_DIR_USER = "EclipseJava\\TechMaya\\src\\main\\webapp\\resources\\images\\products\\";
+	public static final String IMAGE_DIR_USER_IMGS = "EclipseJava\\TechMaya\\src\\main\\webapp\\resources\\images\\users\\";
 
 	public static final String IMAGE_DIR_SAVE_PATH = "D:" + File.separator + IMAGE_DIR_USER;
+	public static final String IMAGE_DIR_SAVE_PATH_CUSTOMER = "D:" + File.separator + IMAGE_DIR_USER_IMGS;
 	
 	public static final String[] PRODUCT_TAGS = {"Headphone","Earphone","Speaker","Mouse","Gamepad","Keyboard"};
 	

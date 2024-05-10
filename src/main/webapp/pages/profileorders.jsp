@@ -89,7 +89,7 @@
         <div class="content">
         	<c:forEach var="order" items="${orders}">
         		<div>
-        		ID: ${order.uid}			Date: ${order.date}			Status: ${order.status}
+        		ID: ${order.uid}        Date: ${order.date}        Status: ${order.status}
         		</div>
         		<table class="order-table">
                 <thead>

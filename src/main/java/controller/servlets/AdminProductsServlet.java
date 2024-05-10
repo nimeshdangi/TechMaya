@@ -20,7 +20,7 @@ import utils.StringUtils;
 
 /**
  * Servlet implementation class AdminProductsServlet
- */
+ */		
 @WebServlet(asyncSupported = true, urlPatterns = { "/AdminProductsServlet" })
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, //2MB //Chunks into max 2mb if size is bigger
 maxFileSize = 1024 * 1024* 10, //10MB

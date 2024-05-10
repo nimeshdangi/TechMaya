@@ -708,4 +708,25 @@ public class DatabaseController {
 			return null;
 		}
 	}
+
+	public int updateUser(UserModel user) {
+		try {
+			PreparedStatement st = getConnection()
+					.prepareStatement("UPDATE users SET first_name=?, last_name=?, email=?,address=?,phone_number=? WHERE id=?");
+			st.setString(1, user.getFirstName());
+			st.setString(2, user.getLastName());
+			st.setString(3, user.getEmail());
+			st.setString(4, user.getAddress());
+			st.setString(5,user.getPhoneNumber()); 
+			st.setString(6,user.getUid());
+			
+			int result = st.executeUpdate();
+			return result > 0 ? 1 : 0;
+			}
+			catch(SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				return -1;
+			}
+	}
+	
 }

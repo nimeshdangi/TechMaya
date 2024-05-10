@@ -28,7 +28,9 @@
     <p><strong>Email:</strong> ${user.email}</p>
     <p><strong>Address:</strong> ${user.address}</p>
     <p><strong>Phone number:</strong> ${user.phoneNumber}</p>
-    <a href="#" class="edit-button">Edit Changes</a>
+    <form action="/TechMaya/UpdateProfileServlet">
+    <button class="edit-button">Edit Profile</button>
+    </form>
   </div>
 </div>
 <jsp:include page="footer.jsp" />
