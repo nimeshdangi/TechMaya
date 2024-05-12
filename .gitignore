@@ -3,4 +3,7 @@
 .project
 .settings
 /bin/
-# /src/main/webapp/images/
+/src/main/java/utils/StringUtils.java
+/src/main/webapp/resources/
+/src/main/webapp/images/
+/src/main/java/utils/Secrets.java

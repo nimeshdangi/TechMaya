@@ -1,5 +1,7 @@
 package utils;
 
+import java.io.File;
+
 public class StringUtils {
 	public static final String USER_NAME = "username"; //also used in session
 	public static final String FIRST_NAME = "first_name";
@@ -11,6 +13,8 @@ public class StringUtils {
 	public static final String ADDRESS = "address";
 	public static final String PASSWORD = "password";
 	public static final String RETYPE_PASSWORD = "retypePassword";
+	
+	public static final String USER_ID = "userId";
 		
 	public static final String SUCCESS_LOGIN_MESSAGE = "Successfully logged in!";
 	//Week 5
@@ -38,9 +42,9 @@ public class StringUtils {
     public static final String REGISTER_SERVLET = "/RegisterServlet";
     public static final String LOGOUT_SERVLET = "/LogoutServlet";
 	
-	public static final String INSERT_USER = "INSERT INTO users" +
-			"(first_name, last_name, email, dob, gender, Phone_number, Address, Password, Registration_Date)" +
-			"VALUES (?,?,?,?,?,?,?,?,NOW())";
+	public static final String INSERT_CUSTOMER = "INSERT INTO users" +
+			"(id,first_name, last_name, email, phone_number,address, password, dob, gender, role, registration_date)" +
+			"VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	
 	
 	public static final String GET_LOGIN_USER_INFO = "SELECT * FROM users WHERE email = ?";
@@ -54,4 +58,13 @@ public class StringUtils {
 	
 	public static final String LOGIN = "Login";
 	public static final String LOGOUT = "Logout";
+
+	public static final String IMAGE_DIR_USER = "EclipseJava\\TechMaya\\src\\main\\webapp\\resources\\images\\products\\";
+	public static final String IMAGE_DIR_USER_IMGS = "EclipseJava\\TechMaya\\src\\main\\webapp\\resources\\images\\users\\";
+
+	public static final String IMAGE_DIR_SAVE_PATH = "D:" + File.separator + IMAGE_DIR_USER;
+	public static final String IMAGE_DIR_SAVE_PATH_CUSTOMER = "D:" + File.separator + IMAGE_DIR_USER_IMGS;
+	
+	public static final String[] PRODUCT_TAGS = {"Headphone","Earphone","Speaker","Mouse","Gamepad","Keyboard"};
+	
 }

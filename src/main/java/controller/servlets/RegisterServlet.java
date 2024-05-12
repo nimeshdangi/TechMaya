@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -24,7 +25,7 @@ import utils.StringUtils;
 /**
  * Servlet implementation class MyFirstServlet
  */
-@WebServlet(asyncSupported = true, description = "my first servlet", urlPatterns = { "/RegisterServlet" })
+@WebServlet(asyncSupported = true, description = "Servlet for registering", urlPatterns = { "/RegisterServlet" })
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
 maxFileSize = 1024 * 1024 * 10, // 10MB
 maxRequestSize = 1024 * 1024 * 50)
@@ -45,8 +46,7 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PrintWriter printOut = response.getWriter();
-		response.setContentType("text/html");
+		response.setContentType("text/html");		
 		response.sendRedirect(request.getContextPath() + StringUtils.REGISTER_PAGE);
 				
 	}
@@ -97,8 +97,10 @@ public class RegisterServlet extends HttpServlet {
 			return;
 		}
 		
-		UserModel userModel = new UserModel(firstName, lastName,
-				gender, dob, email, phoneNumber, address, password, );
+		UUID uuid = UUID.randomUUID();
+		
+		UserModel userModel = new UserModel(firstName, lastName,email, phoneNumber, address,
+				password, dob,gender, "user");
 		
 		int result = dbController.registerUser(userModel);
 		
